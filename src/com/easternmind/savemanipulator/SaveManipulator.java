@@ -20,9 +20,22 @@ public class SaveManipulator {
         fileName = name;
     }
 
+
+
+    //Item methods
+    //
+    //
+
     public void SetItem(int i){
         itemList[i] = !itemList[i];
         System.out.println("Item " + i + " possession set to " + itemList[i]);
+    }
+
+    public void SetAllItem(){
+        for(int i = 0; i < itemList.length; i++){
+           itemList[i] = !itemList[0];
+        }
+        System.out.println("All Items possessions set to " + itemList[0]);
     }
 
     public void LoadFile() throws IOException {
