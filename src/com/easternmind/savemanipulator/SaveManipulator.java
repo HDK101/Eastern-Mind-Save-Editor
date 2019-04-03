@@ -43,16 +43,14 @@ public class SaveManipulator {
 
             //Extract item list
             String extractedItemList = lines[5].replace(",","");
-            System.out.println(extractedItemList);
             char[] charItemList = extractedItemList.toCharArray();
+
             //Set to itemList
             for (int i = 0; i < extractedItemList.length(); i++){
                 int number = Character.getNumericValue(charItemList[i]);
 
                 if (number == 0) itemList[i] = false;
                 else if (number == 1) itemList[i] = true;
-
-                System.out.println(itemList[i]);
             }
 
 
