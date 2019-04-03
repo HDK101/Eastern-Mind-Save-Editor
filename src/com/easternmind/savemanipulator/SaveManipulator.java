@@ -28,7 +28,6 @@ public class SaveManipulator {
     public void LoadFile() throws IOException {
 
         itemList = new boolean[53];
-        SetItem(2);
 
         try {
             bufferedReader = new BufferedReader(new FileReader(fileName + ".txt"));
