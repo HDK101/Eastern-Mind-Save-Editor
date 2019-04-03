@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaveManipulator {
-    public boolean loaded;
+    public boolean loadFailed;
     public boolean[] itemList;
 
     public String[] lines;
@@ -58,24 +58,31 @@ public class SaveManipulator {
 
 
         } catch (IOException ex) {
-            System.out.printf("Eastern Mind save file not found: %s%n", ex.getMessage());
+            System.out.println("Eastern Mind save file not found: +" + ex.getMessage());
+            loadFailed = true;
+
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            System.out.println("Probably not an Eastern Mind save file, Line " + ex.getMessage() + " not found!");
+            loadFailed = true;
 
         } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
             }
-            loaded = true;
+            if(!loadFailed) {
+                System.out.println("Save file loaded!");
+            }
+            else System.out.println("Failed to load the save, check above.");
 
-            System.out.println("Save file loaded!");
         }
     }
 
     public void WriteFile() throws IOException {
-        System.out.println("Beginning to write file...");
 
         bufferedWriter = new BufferedWriter(new FileWriter(fileName + ".txt"));
 
-        if (loaded) {
+        if (!loadFailed) {
+            System.out.println("Beginning to write file...");
 
             int currentLine = 0;
 
