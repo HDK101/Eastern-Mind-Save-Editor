@@ -7,6 +7,7 @@ import java.util.List;
 public class SaveManipulator {
     public boolean loadFailed;
     public boolean[] itemList;
+    public String[] itemNames;
 
     public String[] lines;
 
@@ -20,27 +21,39 @@ public class SaveManipulator {
         fileName = name;
     }
 
-
-
     //Item methods
     //
     //
 
     public void SetItem(int i){
         itemList[i] = !itemList[i];
-        System.out.println("Item " + i + " possession set to " + itemList[i]);
+        System.out.println("Item number " + i + ":");
+        System.out.println(itemNames[i] + " possession set to " + itemList[i]);
     }
 
     public void SetAllItem(){
+        boolean tempItemState = itemList[0];
+
         for(int i = 0; i < itemList.length; i++){
-           itemList[i] = !itemList[0];
+           itemList[i] = !tempItemState;
         }
         System.out.println("All Items possessions set to " + itemList[0]);
     }
 
     public void LoadFile() throws IOException {
 
+        //INITIALIZE
         itemList = new boolean[53];
+        String allItemNames = "Card_LIN,Card_BYOU,Card_TOH,Card_SHA,Card_KAI," +
+                "Card_JIN,Card_LETS,Card_ZEN,Card_GYOU,Maga_METAL,Maga_WATER," +
+                "Maga_WOOD,Maga_FIRE, Maga_EARTH,Book,Amulet,Hitogata,Peach,EyeBall," +
+                "Ant,Chime,MorningGlory,Koma,Compass,Glasses,GoldIngot,SmallMallet," +
+                "Panacea,Hyotan, SunWater,SheepIntestine,Chopsticks,GoldenFlower,key," +
+                "SoundBox,Kane,Hue,Koto,Taiko,Wrench,DreamingEye,LeafSack_empty," +
+                "LeafSack_full, WoodDisk,Registration,Mirror,Force_EARTH,Force_METAL," +
+                "Force_WATER,Force_WOOD,Force_FIRE,Sword";
+        itemNames = allItemNames.split(",");
+        //
 
         try {
             bufferedReader = new BufferedReader(new FileReader(fileName + ".txt"));
