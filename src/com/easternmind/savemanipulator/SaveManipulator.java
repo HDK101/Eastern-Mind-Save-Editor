@@ -20,6 +20,11 @@ public class SaveManipulator {
     public String[] lines;
     //endregion
 
+    //region Character variables
+    public int currentCharacter = 0;
+    public String[] characterNames;
+
+    //endregion
 
     //region Item methods
 
@@ -60,7 +65,7 @@ public class SaveManipulator {
     //region IOMethods
     public void LoadFile() throws IOException {
 
-        //INITIALIZE
+        //region INITIALIZE
         itemList = new boolean[53];
         String allItemNames = "Card_LIN,Card_BYOU,Card_TOH,Card_SHA,Card_KAI," +
                 "Card_JIN,Card_LETS,Card_ZEN,Card_GYOU,Maga_METAL,Maga_WATER," +
@@ -71,7 +76,11 @@ public class SaveManipulator {
                 "LeafSack_full, WoodDisk,Registration,Mirror,Force_EARTH,Force_METAL," +
                 "Force_WATER,Force_WOOD,Force_FIRE,Sword";
         itemNames = allItemNames.split(",");
-        //
+
+        String allCharacterNames = "Lin,Byou,Toh,Sha,Kai,Jin,Lets,Zen,Gyou";
+        characterNames = allCharacterNames.split(",");
+
+        //endregion
 
         try {
             bufferedReader = new BufferedReader(new FileReader(fileName + ".txt"));
@@ -84,6 +93,11 @@ public class SaveManipulator {
             }
             lines = new String[lineList.size()];
             lines = lineList.toArray(lines);
+
+            //Extract item list
+            String extractedCharacter = lines[3];
+            char[] charCharacter = extractedCharacter.toCharArray();
+            currentCharacter = Character.getNumericValue(charCharacter[0]);
 
             //Extract item list
             String extractedItemList = lines[5].replace(",","");
@@ -157,6 +171,14 @@ public class SaveManipulator {
         System.out.println("Save file name:" + name + ".txt");
         fileName = name;
     }
+    //endregion
+
+    //region Character methods
+
+    public void SetCharacter(){
+
+    }
+
     //endregion
 
 }
