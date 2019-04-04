@@ -122,14 +122,17 @@ public class SaveManipulator {
 
     }
 
-    public static String AllItems() {
+    public String AllItems() {
         String tempItemList = new String();
+        int currentItemListAsNumber = 0;
 
         for (int i = 0; i < 52; i++) {
+            currentItemListAsNumber = itemList[i] ? 1 : 0;
+
             if (i == 0) {
-                tempItemList += "1";
+                tempItemList += currentItemListAsNumber;
             } else {
-                tempItemList += ",1";
+                tempItemList += "," + currentItemListAsNumber;
             }
         }
 
