@@ -13,9 +13,9 @@ public class Main {
         easternSave.LoadFile();
 
         //Set item 2,3,4 availability
-        easternSave.SetItem(2);
-        easternSave.SetItem(3);
-        easternSave.SetItem(4);
+        easternSave.SetItem(18);
+        easternSave.SetItem(8);
+        easternSave.SetItem(9);
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();

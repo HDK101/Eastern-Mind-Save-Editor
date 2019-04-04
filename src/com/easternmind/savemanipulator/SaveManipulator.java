@@ -5,25 +5,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SaveManipulator {
-    public boolean loadFailed;
+
+    //region Item variable
     public boolean[] itemList;
     public String[] itemNames;
+    //endregion
 
-    public String[] lines;
-
+    //region File variables
+    public boolean loadFailed;
     public String fileName;
-
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public void SetFileName(String name){
-        System.out.println("Save file name:" + name + ".txt");
-        fileName = name;
-    }
+    public String[] lines;
+    //endregion
 
-    //Item methods
-    //
-    //
+
+    //region Item methods
 
     public void SetItem(int i){
         itemList[i] = !itemList[i];
@@ -40,6 +38,26 @@ public class SaveManipulator {
         System.out.println("All Items possessions set to " + itemList[0]);
     }
 
+    public String AllItems() {
+        String tempItemList = new String();
+        int currentItemListAsNumber = 0;
+
+        for (int i = 0; i < 52; i++) {
+            currentItemListAsNumber = itemList[i] ? 1 : 0;
+
+            if (i == 0) {
+                tempItemList += currentItemListAsNumber;
+            } else {
+                tempItemList += "," + currentItemListAsNumber;
+            }
+        }
+
+        return tempItemList;
+    }
+
+    //endregion
+
+    //region IOMethods
     public void LoadFile() throws IOException {
 
         //INITIALIZE
@@ -135,20 +153,10 @@ public class SaveManipulator {
 
     }
 
-    public String AllItems() {
-        String tempItemList = new String();
-        int currentItemListAsNumber = 0;
-
-        for (int i = 0; i < 52; i++) {
-            currentItemListAsNumber = itemList[i] ? 1 : 0;
-
-            if (i == 0) {
-                tempItemList += currentItemListAsNumber;
-            } else {
-                tempItemList += "," + currentItemListAsNumber;
-            }
-        }
-
-        return tempItemList;
+    public void SetFileName(String name){
+        System.out.println("Save file name:" + name + ".txt");
+        fileName = name;
     }
+    //endregion
+
 }
