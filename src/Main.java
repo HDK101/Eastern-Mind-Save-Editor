@@ -18,7 +18,7 @@ public class Main {
         easternSave.SetItem(4);
 
         //Set item 2,3,4 availability
-        //easternSave.SetAllItem();
+        easternSave.SetAllItem();
         easternSave.WriteFile();
 
     }
