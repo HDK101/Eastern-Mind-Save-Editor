@@ -32,9 +32,8 @@ public class SaveManipulator {
     }
 
     public void SetAllItem(){
-        boolean tempFirstItem = itemList[0];
         for(int i = 0; i < itemList.length; i++){
-           itemList[i] = !tempFirstItem;
+           itemList[i] = !itemList[0];
         }
         System.out.println("All Items possessions set to " + itemList[0]);
     }
@@ -105,7 +104,7 @@ public class SaveManipulator {
                     bufferedWriter.write(line);
                     bufferedWriter.newLine();
                 } else {
-                    bufferedWriter.write(GetStringItems());
+                    bufferedWriter.write(AllItems());
                     bufferedWriter.newLine();
                 }
 
@@ -123,7 +122,7 @@ public class SaveManipulator {
 
     }
 
-    public String GetStringItems() {
+    public String AllItems() {
         String tempItemList = new String();
         int currentItemListAsNumber = 0;
 
