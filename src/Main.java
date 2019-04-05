@@ -17,6 +17,9 @@ public class Main {
         easternSave.SetItem(8);
         easternSave.SetItem(9);
 
+        //Set character to BYOU
+        easternSave.SetCharacter(1);
+
         //easternSave.SetAllItem();
         easternSave.WriteFile();
 

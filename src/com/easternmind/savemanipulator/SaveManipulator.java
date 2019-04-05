@@ -145,11 +145,16 @@ public class SaveManipulator {
 
                 currentLine++;
 
-                if (currentLine != 6) {
-                    bufferedWriter.write(line);
-                    bufferedWriter.newLine();
-                } else {
+                if(currentLine == 6){
                     bufferedWriter.write(AllItems());
+                    bufferedWriter.newLine();
+                }
+                else if (currentLine == 4) {
+                    bufferedWriter.write(String.valueOf(currentCharacter));
+                    bufferedWriter.newLine();
+                }
+                else{
+                    bufferedWriter.write(line);
                     bufferedWriter.newLine();
                 }
 
@@ -175,8 +180,9 @@ public class SaveManipulator {
 
     //region Character methods
 
-    public void SetCharacter(){
-
+    public void SetCharacter(int i){
+        currentCharacter = i;
+        System.out.println("Character set to " + characterNames[i]);
     }
 
     //endregion
