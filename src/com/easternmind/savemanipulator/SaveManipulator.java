@@ -26,6 +26,13 @@ public class SaveManipulator {
 
     //endregion
 
+    //region Location Variables
+    public String[] locationList;
+    public String currentLocation;
+    public String gettingOutMarketLocation;
+
+    //endregion
+
     //region Item methods
 
     public void SetItem(int i){
@@ -77,8 +84,11 @@ public class SaveManipulator {
                 "Force_WATER,Force_WOOD,Force_FIRE,Sword";
         itemNames = allItemNames.split(",");
 
-        String allCharacterNames = "Lin,Byou,Toh,Sha,Kai,Jin,Lets,Zen,Gyou";
+        String allCharacterNames = "Rin,Byou,Tou,Sha,Kai,Jin,Retsu,Zen,Gyou";
         characterNames = allCharacterNames.split(",");
+
+        String allLocations = "D_FACE,D_MARKET";
+        locationList = allLocations.split(",");
 
         //endregion
 
@@ -185,6 +195,27 @@ public class SaveManipulator {
         System.out.println("Character set to " + characterNames[i]);
     }
 
+    //endregion
+
+    //region Location methods
+
+     public void SetLocation(int i){
+        if(i >= 0 & i < locationList.length) {
+            currentLocation = locationList[i];
+            System.out.println("Location set to " + locationList[i]);
+        }
+        else{
+            System.out.println("Invalid location!");
+        }
+     }
+     public void SetOutMarketLocation(int i){
+         if(i == 0){
+             gettingOutMarketLocation = "fBack,l_field.dxr";
+         }
+         if(i == 1){
+             gettingOutMarketLocation = "Back,g_Palace.dxr";
+         }
+     }
     //endregion
 
 }

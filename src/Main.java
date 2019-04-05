@@ -20,6 +20,9 @@ public class Main {
         //Set character to BYOU
         easternSave.SetCharacter(1);
 
+        //Set location to FACE
+        easternSave.SetLocation(0);
+
         //easternSave.SetAllItem();
         easternSave.WriteFile();
 
