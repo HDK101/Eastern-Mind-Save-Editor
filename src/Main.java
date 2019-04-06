@@ -20,8 +20,9 @@ public class Main {
         //Set character to BYOU
         easternSave.SetCharacter(1);
 
-        //Set location to FACE
-        easternSave.SetLocation(0);
+        //Set location to TongNouFace and the way to market changed to MingKenField
+        easternSave.SetLocation(SaveManipulator.LocationList.GreenFace);
+        easternSave.SetOutMarketLocation(SaveManipulator.OutMarketLocation.MingKenField);
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();

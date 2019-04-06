@@ -27,9 +27,38 @@ public class SaveManipulator {
     //endregion
 
     //region Location Variables
-    public String[] locationList;
-    public String currentLocation;
-    public String gettingOutMarketLocation;
+
+    public enum LocationList{
+        GreenFace("D_FACE"),
+        Market("D_MARKET");
+
+
+        private String name;
+
+        LocationList(String name){
+            this.name = name;
+        }
+        public String getName(){
+            return name;
+        }
+    }
+    public LocationList currentLocation;
+
+    public enum OutMarketLocation{
+        MingKenField("fBack,l_field.dxr"),
+        YuiWangPalace("Back,g_Palace.dxr");
+
+
+        private String name;
+
+        OutMarketLocation(String name){
+            this.name = name;
+        }
+        public String getName(){
+            return name;
+        }
+    }
+    public OutMarketLocation outMarketCurrentLocation;
 
     //endregion
 
@@ -50,8 +79,9 @@ public class SaveManipulator {
         System.out.println("All Items possessions set to " + itemList[0]);
     }
 
-    public String AllItems() {
-        String tempItemList = new String();
+    private String AllItems() {
+        String tempItemList;
+        tempItemList = new String();
         int currentItemListAsNumber = 0;
 
         for (int i = 0; i < 52; i++) {
@@ -88,7 +118,7 @@ public class SaveManipulator {
         characterNames = allCharacterNames.split(",");
 
         String allLocations = "D_FACE,D_MARKET";
-        locationList = allLocations.split(",");
+        //locationList = allLocations.split(",");
 
         //endregion
 
@@ -199,21 +229,22 @@ public class SaveManipulator {
 
     //region Location methods
 
-     public void SetLocation(int i){
-        if(i >= 0 & i < locationList.length) {
-            currentLocation = locationList[i];
-            System.out.println("Location set to " + locationList[i]);
+     public void SetLocation(LocationList selectedLocation){
+        if(selectedLocation != null){
+            currentLocation = selectedLocation;
+            System.out.println("Location set to " + currentLocation);
         }
         else{
             System.out.println("Invalid location!");
         }
      }
-     public void SetOutMarketLocation(int i){
-         if(i == 0){
-             gettingOutMarketLocation = "fBack,l_field.dxr";
+     public void SetOutMarketLocation(OutMarketLocation selectedOutMarketLocation){
+         if(selectedOutMarketLocation != null){
+             outMarketCurrentLocation = selectedOutMarketLocation;
+             System.out.println("A way to marketplace set to " + outMarketCurrentLocation);
          }
-         if(i == 1){
-             gettingOutMarketLocation = "Back,g_Palace.dxr";
+         else{
+             System.out.println("Invalid location!");
          }
      }
     //endregion
