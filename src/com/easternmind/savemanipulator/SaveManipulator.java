@@ -52,7 +52,8 @@ public class SaveManipulator {
         KingGyou("G_KING"),
         PillarRoom("G_NONFAI"),
         YuiWangPalace("G_PALACE"),
-        RoomOfImmortality("G_PURYAO");
+        RoomOfImmortality("G_PURYAO"),
+        YuiWangHiddenPlace("G_RMBUD");
 
 
 
