@@ -30,7 +30,17 @@ public class SaveManipulator {
 
     public enum LocationList {
         GreenFace("D_FACE"),
-        Market("D_MARKET");
+        Market("D_MARKET"),
+        Sea("D_SEA"),
+        CentralMountain("E_MOUNT"),
+        OctogonalShrine("E_RM1"),
+        SloughInShrine("E_RM2"),
+        StairsMountain("E_STAIRS"),
+        ShiChiengField("F_FIELD"),
+        ComputerRoom("F_KING"),
+        RedTunnel("F_TONNEL"),
+        TowerFirstStairs("F_TOWER1");
+
 
 
         private String name;
