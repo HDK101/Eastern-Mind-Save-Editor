@@ -53,7 +53,20 @@ public class SaveManipulator {
         PillarRoom("G_NONFAI"),
         YuiWangPalace("G_PALACE"),
         RoomOfImmortality("G_PURYAO"),
-        YuiWangHiddenPlace("G_RMBUD");
+        GoldenFlowerHiddenPlace("G_RMBUD"),
+        ShaHiddenPlace("G_RMSHA"),
+        HelixRoof("G_ROOF"),
+        RoomOfDesire("G_SHOWMI"),
+        RoomOfGold("G_TONGSI"),
+        LeftEarTunnel("G_TONNEL"),
+        MingKenField("L_FIELD"),
+        MingKenForest("L_FOREST"),
+        InsideMokuGyou("L_INNER"),
+        MokuGyou("L_KING"),
+        Tabelinai("L_OGRE"),
+        RightEarTunnel("L_TONNEL"),
+        MokuGyouTree("L_WOOD"),
+        EyeballOfDreamingPlace("L_WTOR");
 
 
 
