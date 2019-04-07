@@ -7,82 +7,86 @@ import java.util.List;
 public class SaveManipulator {
 
     //region Item variable
-    public boolean[] itemList;
-    public String[] itemNames;
+    private boolean[] itemList;
+    private String[] itemNames;
     //endregion
 
     //region File variables
-    public boolean loadFailed;
-    public String fileName;
+    private boolean loadFailed;
+    private String fileName;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public String[] lines;
+    private String[] lines;
     //endregion
 
     //region Character variables
-    public int currentCharacter = 0;
-    public String[] characterNames;
+    private int currentCharacter = 0;
+    private String[] characterNames;
 
     //endregion
 
     //region Location Variables
 
-    public enum LocationList{
+    public enum LocationList {
         GreenFace("D_FACE"),
         Market("D_MARKET");
 
 
         private String name;
 
-        LocationList(String name){
+        LocationList(String name) {
             this.name = name;
         }
-        public String getName(){
+
+        public String getName() {
             return name;
         }
     }
-    public LocationList currentLocation;
 
-    public enum OutMarketLocation{
+    private LocationList currentLocation;
+
+    public enum OutMarketLocation {
         MingKenField("fBack,l_field.dxr"),
         YuiWangPalace("Back,g_Palace.dxr");
 
 
         private String name;
 
-        OutMarketLocation(String name){
+        OutMarketLocation(String name) {
             this.name = name;
         }
-        public String getName(){
+
+        public String getName() {
             return name;
         }
     }
+
     public OutMarketLocation outMarketCurrentLocation;
 
     //endregion
 
     //region Item methods
 
-    public void SetItem(int i){
+    public void SetItem(int i) {
         itemList[i] = !itemList[i];
         System.out.println("Item number " + i + ":");
         System.out.println(itemNames[i] + " possession set to " + itemList[i]);
     }
 
-    public void SetAllItem(){
+    public void SetAllItem() {
         boolean tempItemState = itemList[0];
 
-        for(int i = 0; i < itemList.length; i++){
-           itemList[i] = !tempItemState;
+        for (int i = 0; i < itemList.length; i++) {
+            itemList[i] = !tempItemState;
         }
         System.out.println("All Items possessions set to " + itemList[0]);
     }
 
     private String AllItems() {
         String tempItemList;
-        tempItemList = new String();
-        int currentItemListAsNumber = 0;
+        tempItemList = "";
+        int currentItemListAsNumber;
 
         for (int i = 0; i < 52; i++) {
             currentItemListAsNumber = itemList[i] ? 1 : 0;
@@ -116,10 +120,6 @@ public class SaveManipulator {
 
         String allCharacterNames = "Rin,Byou,Tou,Sha,Kai,Jin,Retsu,Zen,Gyou";
         characterNames = allCharacterNames.split(",");
-
-        String allLocations = "D_FACE,D_MARKET";
-        //locationList = allLocations.split(",");
-
         //endregion
 
         try {
@@ -140,11 +140,11 @@ public class SaveManipulator {
             currentCharacter = Character.getNumericValue(charCharacter[0]);
 
             //Extract item list
-            String extractedItemList = lines[5].replace(",","");
+            String extractedItemList = lines[5].replace(",", "");
             char[] charItemList = extractedItemList.toCharArray();
 
             //Set to itemList
-            for (int i = 0; i < extractedItemList.length(); i++){
+            for (int i = 0; i < extractedItemList.length(); i++) {
                 int number = Character.getNumericValue(charItemList[i]);
 
                 if (number == 0) itemList[i] = false;
@@ -164,10 +164,9 @@ public class SaveManipulator {
             if (bufferedReader != null) {
                 bufferedReader.close();
             }
-            if(!loadFailed) {
+            if (!loadFailed) {
                 System.out.println("Save file loaded!");
-            }
-            else System.out.println("Failed to load the save, check above.");
+            } else System.out.println("Failed to load the save, check above.");
 
         }
     }
@@ -185,15 +184,13 @@ public class SaveManipulator {
 
                 currentLine++;
 
-                if(currentLine == 6){
+                if (currentLine == 6) {
                     bufferedWriter.write(AllItems());
                     bufferedWriter.newLine();
-                }
-                else if (currentLine == 4) {
+                } else if (currentLine == 4) {
                     bufferedWriter.write(String.valueOf(currentCharacter));
                     bufferedWriter.newLine();
-                }
-                else{
+                } else {
                     bufferedWriter.write(line);
                     bufferedWriter.newLine();
                 }
@@ -201,18 +198,17 @@ public class SaveManipulator {
             }
 
             System.out.println("File saved!");
-        }
-        else {
+        } else {
             System.out.println("The program can't write the file, because no save file was loaded!");
         }
 
-        if(bufferedWriter != null){
+        if (bufferedWriter != null) {
             bufferedWriter.close();
         }
 
     }
 
-    public void SetFileName(String name){
+    public void SetFileName(String name) {
         System.out.println("Save file name:" + name + ".txt");
         fileName = name;
     }
@@ -220,7 +216,7 @@ public class SaveManipulator {
 
     //region Character methods
 
-    public void SetCharacter(int i){
+    public void SetCharacter(int i) {
         currentCharacter = i;
         System.out.println("Character set to " + characterNames[i]);
     }
@@ -229,24 +225,23 @@ public class SaveManipulator {
 
     //region Location methods
 
-     public void SetLocation(LocationList selectedLocation){
-        if(selectedLocation != null){
+    public void SetLocation(LocationList selectedLocation) {
+        if (selectedLocation != null) {
             currentLocation = selectedLocation;
             System.out.println("Location set to " + currentLocation);
-        }
-        else{
+        } else {
             System.out.println("Invalid location!");
         }
-     }
-     public void SetOutMarketLocation(OutMarketLocation selectedOutMarketLocation){
-         if(selectedOutMarketLocation != null){
-             outMarketCurrentLocation = selectedOutMarketLocation;
-             System.out.println("A way to marketplace set to " + outMarketCurrentLocation);
-         }
-         else{
-             System.out.println("Invalid location!");
-         }
-     }
+    }
+
+    public void SetOutMarketLocation(OutMarketLocation selectedOutMarketLocation) {
+        if (selectedOutMarketLocation != null) {
+            outMarketCurrentLocation = selectedOutMarketLocation;
+            System.out.println("A way to marketplace set to " + outMarketCurrentLocation);
+        } else {
+            System.out.println("Invalid location!");
+        }
+    }
     //endregion
 
 }

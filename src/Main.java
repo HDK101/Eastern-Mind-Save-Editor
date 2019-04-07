@@ -3,7 +3,6 @@ import java.io.*;
 
 import com.easternmind.savemanipulator.*;
 
-
 public class Main {
 
     public static void main(String[] args) throws IOException {
