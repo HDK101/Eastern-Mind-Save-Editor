@@ -39,7 +39,21 @@ public class SaveManipulator {
         ShiChiengField("F_FIELD"),
         ComputerRoom("F_KING"),
         RedTunnel("F_TONNEL"),
-        TowerFirstStairs("F_TOWER1");
+        TowerFirstStairs("F_TOWER1"),
+        TowerSecondStairs("F_TOWER2"),
+        TowerThirdStairs("F_TOWER3"),
+        Boulder("G_BOULDE"),
+        HelixEntrance("G_PALM"),
+        HelixCastle("G_CASTLE"),
+        RoomOfAppetite("G_CHIFA1"),
+        RoomOfAppetiteVisible("G_CHIFA2"),
+        YuiWangEntrance("G_ENTRAN"),
+        GFlowerDragons("G_FLOWER"),
+        KingGyou("G_KING"),
+        PillarRoom("G_NONFAI"),
+        YuiWangPalace("G_PALACE"),
+        RoomOfImmortality("G_PURYAO");
+
 
 
 
