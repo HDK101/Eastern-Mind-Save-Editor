@@ -66,7 +66,26 @@ public class SaveManipulator {
         Tabelinai("L_OGRE"),
         RightEarTunnel("L_TONNEL"),
         MokuGyouTree("L_WOOD"),
-        EyeballOfDreamingPlace("L_WTOR");
+        EyeballOfDreamingPlace("L_WTOR"),
+        GyouRitual("R_GYOU2"),
+        RetsuCaught("R_LETSB"),
+        ReincarnationPlace("R_SYSTEM"),
+        ZenLife("R_ZEN2"),
+        PingChaoGuardians("W_AUN"),
+        SuiGyou("W_KING"),
+        MonChienLakeFirstPart("W_LAKE1"),
+        MonChienLakeSecondPart("W_LAKE2"),
+        PingChaoPalaceFirstPart("W_PALAC1"),
+        PingChaoPalaceSecondPart("W_PALAC2"),
+        FangShingRoom("W_RM1"),
+        PangXieRoom("W_RM2"),
+        PitchBlackRoom("W_RM3"),
+        VideoTongNouSealRoom("W_RM4"),
+        VideoGoldenFlowerRoom("W_RM5"),
+        VideoEnteringMokuGyouRoom("W_RM6"),
+        VideoComputerRoom("W_RM7");
+
+
 
 
 
