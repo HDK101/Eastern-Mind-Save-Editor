@@ -83,11 +83,18 @@ public class SaveManipulator {
         VideoTongNouSealRoom("W_RM4"),
         VideoGoldenFlowerRoom("W_RM5"),
         VideoEnteringMokuGyouRoom("W_RM6"),
-        VideoComputerRoom("W_RM7");
-
-
-
-
+        VideoComputerRoom("W_RM7"),
+        GuardiansRoom("W_RMAUN"),
+        MagatamasDumpRoom("W_RMDUMP"),
+        RockRoom("W_RMEYE"),
+        IllMagatamaRoom("W_RMILL"),
+        KaiRoom("W_RMKAI"),
+        DragonWithMagatamaRoom("W_RMMAGA"),
+        PingChaoMapRoom("W_RMMAP"),
+        MingKenRoom("W_RMMIN"),
+        ShaRoom("W_RMSHA"),
+        YuiWangRoom("W_RMYUI"),
+        MonChienTunnel("W_TONNEL");
 
 
         private String name;
