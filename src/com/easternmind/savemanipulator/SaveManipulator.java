@@ -28,6 +28,8 @@ public class SaveManipulator {
 
     //region Location Variables
 
+    public int currentFrame;
+
     public enum LocationList {
         GreenFace("D_FACE"),
         Market("D_MARKET"),
@@ -107,7 +109,6 @@ public class SaveManipulator {
             return name;
         }
     }
-
     private LocationList currentLocation;
 
     public enum OutMarketLocation {
@@ -305,6 +306,10 @@ public class SaveManipulator {
         } else {
             System.out.println("Invalid location!");
         }
+    }
+
+    public void SetFrame(int frame){
+        currentFrame = frame;
     }
     //endregion
 
