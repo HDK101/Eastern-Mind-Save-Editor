@@ -3,6 +3,7 @@ package com.easternmind.savemanipulator;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 public class SaveManipulator {
 
@@ -105,8 +106,8 @@ public class SaveManipulator {
             this.name = name;
         }
 
-        public String getName() {
-            return name;
+        public String getFile() {
+            return name + ".dxr";
         }
     }
     private LocationList currentLocation;
@@ -249,13 +250,27 @@ public class SaveManipulator {
 
                 currentLine++;
 
+                //Write itemList to file
                 if (currentLine == 6) {
                     bufferedWriter.write(AllItems());
                     bufferedWriter.newLine();
-                } else if (currentLine == 4) {
+                }
+                //Write currentCharacter to file
+                else if (currentLine == 4) {
                     bufferedWriter.write(String.valueOf(currentCharacter));
                     bufferedWriter.newLine();
-                } else {
+                }
+                //Write currentLocation
+                else if (currentLine == 3) {
+                    bufferedWriter.write(GetGamePath() + currentLocation.getFile());
+                    bufferedWriter.newLine();
+                }
+                //Write currentFrame
+                else if (currentLine == 5) {
+                    bufferedWriter.write(String.valueOf(currentFrame));
+                    bufferedWriter.newLine();
+                }
+                else {
                     bufferedWriter.write(line);
                     bufferedWriter.newLine();
                 }
@@ -276,6 +291,13 @@ public class SaveManipulator {
     public void SetFileName(String name) {
         System.out.println("Save file name:" + name + ".txt");
         fileName = name;
+    }
+
+    public String GetGamePath(){
+        File path = new File(lines[2]);
+        System.out.println("Game path:");
+        System.out.println(path.getParent());
+        return path.getParent() + '\\';
     }
     //endregion
 

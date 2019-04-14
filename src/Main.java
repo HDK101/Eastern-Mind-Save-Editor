@@ -16,6 +16,9 @@ public class Main {
         easternSave.SetItem(8);
         easternSave.SetItem(9);
 
+        //Set current frame
+        easternSave.SetFrame(20);
+
         //Set character to BYOU
         easternSave.SetCharacter(1);
 
