@@ -32,20 +32,46 @@ public class SaveManipulator {
     public int currentFrame;
 
     public enum LocationList {
-        GreenFace("D_FACE"),
-        Market("D_MARKET"),
+
+        //
+        //
+        //    Tong Nou main area
+        //
+        //
         Sea("D_SEA"),
+        GreenFace("D_FACE"),
+        LeftEarTunnel("G_TONNEL"),
+        RightEarTunnel("L_TONNEL"),
+        Boulder("G_BOULDE"),
+
+        //
+        //
+        //    Tong Nou Central Mountain
+        //
+        //
+
         CentralMountain("E_MOUNT"),
         OctogonalShrine("E_RM1"),
         SloughInShrine("E_RM2"),
         StairsMountain("E_STAIRS"),
         ShiChiengField("F_FIELD"),
+
+        //
+        //
+        //    Shi Chieng
+        //
+        //
         ComputerRoom("F_KING"),
         RedTunnel("F_TONNEL"),
         TowerFirstStairs("F_TOWER1"),
         TowerSecondStairs("F_TOWER2"),
         TowerThirdStairs("F_TOWER3"),
-        Boulder("G_BOULDE"),
+
+        //
+        //
+        //    Helix place
+        //
+        //
         HelixEntrance("G_PALM"),
         HelixCastle("G_CASTLE"),
         RoomOfAppetite("G_CHIFA1"),
@@ -54,28 +80,41 @@ public class SaveManipulator {
         GFlowerDragons("G_FLOWER"),
         KingGyou("G_KING"),
         PillarRoom("G_NONFAI"),
-        YuiWangPalace("G_PALACE"),
         RoomOfImmortality("G_PURYAO"),
+
+        //
+        //
+        //    Yui Wang
+        //
+        //
+        YuiWangPalace("G_PALACE"),
         GoldenFlowerHiddenPlace("G_RMBUD"),
         ShaHiddenPlace("G_RMSHA"),
         HelixRoof("G_ROOF"),
         RoomOfDesire("G_SHOWMI"),
         RoomOfGold("G_TONGSI"),
-        LeftEarTunnel("G_TONNEL"),
+
+        //
+        //
+        //    Ming Ken
+        //
+        //
         MingKenField("L_FIELD"),
         MingKenForest("L_FOREST"),
         InsideMokuGyou("L_INNER"),
         MokuGyou("L_KING"),
         Tabelinai("L_OGRE"),
-        RightEarTunnel("L_TONNEL"),
         MokuGyouTree("L_WOOD"),
         EyeballOfDreamingPlace("L_WTOR"),
         GyouRitual("R_GYOU2"),
         RetsuCaught("R_LETSB"),
-        ReincarnationPlace("R_SYSTEM"),
+
+        //
+        //
+        //       Mon Chien
+        //
+        //
         ZenLife("R_ZEN2"),
-        PingChaoGuardians("W_AUN"),
-        SuiGyou("W_KING"),
         MonChienLakeFirstPart("W_LAKE1"),
         MonChienLakeSecondPart("W_LAKE2"),
         PingChaoPalaceFirstPart("W_PALAC1"),
@@ -97,8 +136,17 @@ public class SaveManipulator {
         MingKenRoom("W_RMMIN"),
         ShaRoom("W_RMSHA"),
         YuiWangRoom("W_RMYUI"),
-        MonChienTunnel("W_TONNEL");
+        MonChienTunnel("W_TONNEL"),
+        PingChaoGuardians("W_AUN"),
+        SuiGyou("W_KING"),
 
+        //
+        //
+        //Unique
+        //
+        //
+        Market("D_MARKET"),
+        ReincarnationPlace("R_SYSTEM");
 
         private String name;
 
@@ -200,16 +248,16 @@ public class SaveManipulator {
             lines = new String[lineList.size()];
             lines = lineList.toArray(lines);
 
-            //Extract item list
+            //Extract current character from file
             String extractedCharacter = lines[3];
             char[] charCharacter = extractedCharacter.toCharArray();
             currentCharacter = Character.getNumericValue(charCharacter[0]);
 
-            //Extract item list
+            //Extract item list from file
             String extractedItemList = lines[5].replace(",", "");
             char[] charItemList = extractedItemList.toCharArray();
 
-            //Set to itemList
+            //Set to boolean array itemList
             for (int i = 0; i < extractedItemList.length(); i++) {
                 int number = Character.getNumericValue(charItemList[i]);
 
@@ -294,6 +342,7 @@ public class SaveManipulator {
     }
 
     public String GetGamePath(){
+        //In Line 2, it is stored the place(.dxr)
         File path = new File(lines[2]);
         System.out.println("Game path:");
         System.out.println(path.getParent());
