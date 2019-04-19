@@ -158,25 +158,53 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
+
     private LocationList currentLocation;
 
-    public enum ParameterLocation {
-        MingKenField("fBack,l_field.dxr"),
-        YuiWangPalace("Back,g_Palace.dxr");
+
+    public enum OutLocation {
+        GreenFace("d_face"),
+
+        MingKenField("l_field"),
+
+        YuiWangPalace("g_Palace"),
+
+        MonChienLake("w_Lake1"),
+
+        ShiChiengField("f_field");
 
 
         private String name;
 
-        ParameterLocation(String name) {
+        OutLocation(String name) {
             this.name = name;
         }
 
-        public String getName() {
+        public String getFile() {
+            return name + ".dxr";
+        }
+    }
+
+    //Location for parameter in line 7.
+    public OutLocation outLocation;
+
+    public enum Parameter {
+        OutMarket("fBack"),
+        OutCentralMountain("back"),
+        OutCentralMountainMount("Mount");
+        private String name;
+
+        Parameter(String name) {
+            this.name = name;
+        }
+
+        public String getParameter() {
             return name;
         }
     }
 
-    public ParameterLocation outMarketCurrentLocation;
+    //Parameter for line 7
+    public Parameter currentParameter;
 
     //endregion
 
@@ -317,8 +345,7 @@ public class SaveManipulator {
                 else if (currentLine == 5) {
                     bufferedWriter.write(String.valueOf(currentFrame));
                     bufferedWriter.newLine();
-                }
-                else {
+                } else {
                     bufferedWriter.write(line);
                     bufferedWriter.newLine();
                 }
@@ -341,7 +368,7 @@ public class SaveManipulator {
         fileName = name;
     }
 
-    public String GetGamePath(){
+    public String GetGamePath() {
         //In Line 2, it is stored the place(.dxr)
         File path = new File(lines[2]);
         System.out.println("Game path:");
@@ -370,16 +397,24 @@ public class SaveManipulator {
         }
     }
 
-    public void SetOutMarketLocation(OutMarketLocation selectedOutMarketLocation) {
-        if (selectedOutMarketLocation != null) {
-            outMarketCurrentLocation = selectedOutMarketLocation;
-            System.out.println("A way to marketplace set to " + outMarketCurrentLocation);
+    public void SetOutLocation(OutLocation selectedOutLocation,Parameter selectedParameter) {
+        if (selectedOutLocation != null) {
+            //Special case for Shi Chieng.
+            if(selectedOutLocation == OutLocation.ShiChiengField){
+                currentParameter = Parameter.OutCentralMountainMount;
+            }
+            //Goes normal if not Shi Chieng
+            else{
+                outLocation = selectedOutLocation;
+                currentParameter = selectedParameter;
+            }
+            System.out.println("A way out set to " + outLocation);
         } else {
             System.out.println("Invalid location!");
         }
     }
 
-    public void SetFrame(int frame){
+    public void SetFrame(int frame) {
         currentFrame = frame;
     }
     //endregion

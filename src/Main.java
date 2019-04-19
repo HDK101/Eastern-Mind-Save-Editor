@@ -24,7 +24,7 @@ public class Main {
 
         //Set location to TongNouFace and the way to market changed to MingKenField
         easternSave.SetLocation(SaveManipulator.LocationList.GreenFace);
-        easternSave.SetOutMarketLocation(SaveManipulator.OutMarketLocation.MingKenField);
+        easternSave.SetOutMarketLocation(SaveManipulator.ParameterLocation.MingKenField);
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();
