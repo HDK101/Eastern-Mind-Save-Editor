@@ -160,14 +160,14 @@ public class SaveManipulator {
     }
     private LocationList currentLocation;
 
-    public enum OutMarketLocation {
+    public enum ParameterLocation {
         MingKenField("fBack,l_field.dxr"),
         YuiWangPalace("Back,g_Palace.dxr");
 
 
         private String name;
 
-        OutMarketLocation(String name) {
+        ParameterLocation(String name) {
             this.name = name;
         }
 
@@ -176,7 +176,7 @@ public class SaveManipulator {
         }
     }
 
-    public OutMarketLocation outMarketCurrentLocation;
+    public ParameterLocation outMarketCurrentLocation;
 
     //endregion
 
