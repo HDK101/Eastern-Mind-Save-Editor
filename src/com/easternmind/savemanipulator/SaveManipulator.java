@@ -184,7 +184,7 @@ public class SaveManipulator {
             this.name = name;
         }
 
-        public String getFile() {
+        public String getName() {
             return name + ".dxr";
         }
     }
@@ -354,6 +354,9 @@ public class SaveManipulator {
                 //Write currentFrame
                 else if (currentLine == 5) {
                     bufferedWriter.write(String.valueOf(currentFrame));
+                    bufferedWriter.newLine();
+                }else if (currentLine == 7) {
+                    bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
                     bufferedWriter.newLine();
                 } else {
                     bufferedWriter.write(line);
