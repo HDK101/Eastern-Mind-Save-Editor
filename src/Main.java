@@ -23,8 +23,8 @@ public class Main {
         easternSave.SetCharacter(1);
 
         //Set location to TongNouFace and the way to market changed to MingKenField
-        easternSave.SetLocation(SaveManipulator.LocationList.GreenFace);
-        easternSave.SetOutMarketLocation(SaveManipulator.ParameterLocation.MingKenField);
+        easternSave.SetLocation(SaveManipulator.LocationList.CentralMountain);
+        easternSave.SetOutLocation(SaveManipulator.OutLocation.ShiChieng);
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();

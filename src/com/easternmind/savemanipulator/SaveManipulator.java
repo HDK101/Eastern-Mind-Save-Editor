@@ -165,13 +165,17 @@ public class SaveManipulator {
     public enum OutLocation {
         GreenFace("d_face"),
 
-        MingKenField("l_field"),
+        MingKen("l_field"),
 
-        YuiWangPalace("g_Palace"),
+        YuiWang("g_Palace"),
 
-        MonChienLake("w_Lake1"),
+        MonChien("w_Lake1"),
 
-        ShiChiengField("f_field");
+        RockRoom("W_RMEYE"),
+
+        MokuGyouTree("l_Wood"),
+
+        ShiChieng("f_field");
 
 
         private String name;
@@ -189,9 +193,12 @@ public class SaveManipulator {
     public OutLocation outLocation;
 
     public enum Parameter {
-        OutMarket("fBack"),
-        OutCentralMountain("back"),
-        OutCentralMountainMount("Mount");
+        fBack("fBack"),
+        Back("back"),
+        Mount("Mount"),
+        Right("right'"),
+        Sixteen("016'"),
+        YFive("Y5'");
         private String name;
 
         Parameter(String name) {
@@ -214,6 +221,7 @@ public class SaveManipulator {
         itemList[i] = !itemList[i];
         System.out.println("Item number " + i + ":");
         System.out.println(itemNames[i] + " possession set to " + itemList[i]);
+        System.out.println();
     }
 
     public void SetAllItem() {
@@ -223,6 +231,7 @@ public class SaveManipulator {
             itemList[i] = !tempItemState;
         }
         System.out.println("All Items possessions set to " + itemList[0]);
+        System.out.println();
     }
 
     private String AllItems() {
@@ -311,6 +320,7 @@ public class SaveManipulator {
             } else System.out.println("Failed to load the save, check above.");
 
         }
+        System.out.println();
     }
 
     public void WriteFile() throws IOException {
@@ -360,11 +370,12 @@ public class SaveManipulator {
         if (bufferedWriter != null) {
             bufferedWriter.close();
         }
-
+        System.out.println();
     }
 
     public void SetFileName(String name) {
         System.out.println("Save file name:" + name + ".txt");
+        System.out.println();
         fileName = name;
     }
 
@@ -373,6 +384,7 @@ public class SaveManipulator {
         File path = new File(lines[2]);
         System.out.println("Game path:");
         System.out.println(path.getParent());
+        System.out.println();
         return path.getParent() + '\\';
     }
     //endregion
@@ -382,6 +394,7 @@ public class SaveManipulator {
     public void SetCharacter(int i) {
         currentCharacter = i;
         System.out.println("Character set to " + characterNames[i]);
+        System.out.println();
     }
 
     //endregion
@@ -397,25 +410,97 @@ public class SaveManipulator {
         }
     }
 
-    public void SetOutLocation(OutLocation selectedOutLocation,Parameter selectedParameter) {
+    public void SetOutLocation(OutLocation selectedOutLocation) {
         if (selectedOutLocation != null) {
             //Special case for Shi Chieng.
-            if(selectedOutLocation == OutLocation.ShiChiengField){
-                currentParameter = Parameter.OutCentralMountainMount;
+            if(currentLocation == LocationList.CentralMountain) {
+                if (selectedOutLocation == OutLocation.MingKen) {
+                    System.out.println("Special case, Setting to MokuGyouTree and parameter to 016'");
+                    currentParameter = Parameter.Sixteen;
+                    outLocation = OutLocation.MokuGyouTree;
+
+                }
+                else if (selectedOutLocation == OutLocation.ShiChieng) {
+                    currentParameter = Parameter.Mount;
+                    outLocation = selectedOutLocation;
+
+                }
+                else if (selectedOutLocation == OutLocation.YuiWang) {
+                    currentParameter = Parameter.YFive;
+                    outLocation = selectedOutLocation;
+
+                }
+                else if (selectedOutLocation == OutLocation.MonChien) {
+                    outLocation = OutLocation.MonChien;
+                    currentParameter = Parameter.Back;
+
+                }
+                else if (selectedOutLocation == OutLocation.GreenFace) {
+                    outLocation = OutLocation.GreenFace;
+                    currentParameter = Parameter.Back;
+
+                }
+                else{
+                    System.out.println("Illegal location for Central Mountain: " + selectedOutLocation);
+                }
+                /*
+
+                OLD CODE
+
+                else if(selectedOutLocation != OutLocation.ShiChiengField && selectedParameter == Parameter.Mount){
+                    System.out.println("Illegal parameter for Central Mountain! Mount parameter is exclusive for Shi Chieng");
+                    currentParameter = Parameter.Back;
+                    outLocation = selectedOutLocation;
+
+                }
+                else if(selectedOutLocation != OutLocation.MingKenField && selectedParameter == Parameter.Sixteen){
+                    System.out.println("Illegal parameter for Central Mountain! 016' parameter is exclusive for MingKenField(MokuGyouTree)!");
+                    currentParameter = Parameter.Back;
+                    outLocation = selectedOutLocation;
+
+                }
+                else{
+                    currentParameter = selectedParameter;
+                    outLocation = selectedOutLocation;
+                }
+                */
             }
-            //Goes normal if not Shi Chieng
-            else{
-                outLocation = selectedOutLocation;
-                currentParameter = selectedParameter;
+            if(currentLocation == LocationList.Market) {
+                if(selectedOutLocation == OutLocation.RockRoom){
+                    currentParameter = Parameter.Right;
+                    outLocation = selectedOutLocation;
+                }
+                else if(selectedOutLocation == OutLocation.MingKen){
+                    currentParameter = Parameter.fBack;
+                    outLocation = selectedOutLocation;
+                }
+                else if(selectedOutLocation == OutLocation.YuiWang){
+                    currentParameter = Parameter.Back;
+                    outLocation = selectedOutLocation;
+                }
+                else if(selectedOutLocation == OutLocation.MonChien){
+                    System.out.println("Special case, Setting to RockRoom and parameter to Right");
+                    currentParameter = Parameter.Right;
+                    outLocation = OutLocation.RockRoom;
+                }
+                else{
+                    System.out.println("Illegal location for Market: " + selectedOutLocation);
+                }
             }
-            System.out.println("A way out set to " + outLocation);
-        } else {
+            if(outLocation != null && currentParameter != null) {
+                System.out.println("A way out set to " + outLocation);
+                System.out.println("Parameter " + currentParameter);
+            }
+        } else{
             System.out.println("Invalid location!");
         }
+        System.out.println();
     }
 
     public void SetFrame(int frame) {
         currentFrame = frame;
+        System.out.println("Frame set to " + frame);
+        System.out.println();
     }
     //endregion
 
