@@ -13,6 +13,7 @@ public class SaveManipulator {
     //endregion
 
     //region File variables
+    public boolean usingTemplate;
     private boolean loadFailed;
     private String fileName;
     private BufferedReader bufferedReader;
@@ -148,6 +149,7 @@ public class SaveManipulator {
         Market("D_MARKET"),
         ReincarnationPlace("R_SYSTEM");
 
+
         private String name;
 
         LocationList(String name) {
@@ -274,7 +276,10 @@ public class SaveManipulator {
         //endregion
 
         try {
-            bufferedReader = new BufferedReader(new FileReader(fileName + ".txt"));
+            if(!usingTemplate) {
+                bufferedReader = new BufferedReader(new FileReader(String.format("%s.txt", fileName)));
+            }
+            else bufferedReader = new BufferedReader(new FileReader("resources\\savetemplate\\SAVEGAME.txt"));
 
             List<String> lineList = new ArrayList();
             String line;
@@ -301,7 +306,11 @@ public class SaveManipulator {
                 if (number == 0) itemList[i] = false;
                 else if (number == 1) itemList[i] = true;
             }
-
+            //Extract current location from file
+            String extractedLocation = lines[2];
+            extractedLocation = extractedLocation.replace(GetGamePath(),"");
+            extractedLocation = extractedLocation.replace(".dxr","");
+            currentLocation = SetFromString(extractedLocation);
 
         } catch (IOException ex) {
             System.out.println("Eastern Mind save file not found: +" + ex.getMessage());
@@ -331,6 +340,9 @@ public class SaveManipulator {
             System.out.println("Beginning to write file...");
 
             int currentLine = 0;
+            //
+            //Eastern Mind requires Macintosh Format for save-files, use .write("\r") instead of .newLine(), which is platform-dependant
+            //
 
             for (String line : lines) {
 
@@ -339,28 +351,28 @@ public class SaveManipulator {
                 //Write itemList to file
                 if (currentLine == 6) {
                     bufferedWriter.write(AllItems());
-                    bufferedWriter.newLine();
+                    bufferedWriter.write("\r");
                 }
                 //Write currentCharacter to file
                 else if (currentLine == 4) {
                     bufferedWriter.write(String.valueOf(currentCharacter));
-                    bufferedWriter.newLine();
+                    bufferedWriter.write("\r");
                 }
                 //Write currentLocation
                 else if (currentLine == 3) {
                     bufferedWriter.write(GetGamePath() + currentLocation.getFile());
-                    bufferedWriter.newLine();
+                    bufferedWriter.write("\r");
                 }
                 //Write currentFrame
                 else if (currentLine == 5) {
                     bufferedWriter.write(String.valueOf(currentFrame));
-                    bufferedWriter.newLine();
-                }else if (currentLine == 7) {
+                    bufferedWriter.write("\r");
+                } else if (currentLine == 7 && currentParameter != null) {
                     bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
-                    bufferedWriter.newLine();
+                    bufferedWriter.write("\r");
                 } else {
                     bufferedWriter.write(line);
-                    bufferedWriter.newLine();
+                    bufferedWriter.write("\r");
                 }
 
             }
@@ -377,18 +389,30 @@ public class SaveManipulator {
     }
 
     public void SetFileName(String name) {
-        System.out.println("Save file name:" + name + ".txt");
-        System.out.println();
+        File tempFile = new File(name);
+        if(tempFile.exists()) {
+            System.out.println("Save file name:" + name + ".txt");
+            System.out.println();
+        }
+        else{
+            System.out.println("Save file name:" + name + ".txt doesn't exist, using template...");
+            usingTemplate = true;
+        }
         fileName = name;
     }
 
     public String GetGamePath() {
         //In Line 2, it is stored the place(.dxr)
-        File path = new File(lines[2]);
-        System.out.println("Game path:");
-        System.out.println(path.getParent());
-        System.out.println();
-        return path.getParent() + '\\';
+        if(lines[2] != null) {
+            File path = new File(lines[2]);
+            System.out.println("Game path:");
+            System.out.println(path.getParent());
+            System.out.println();
+            return path.getParent() + '\\';
+        }
+        else {
+            return null;
+        }
     }
     //endregion
 
@@ -408,6 +432,9 @@ public class SaveManipulator {
         if (selectedLocation != null) {
             currentLocation = selectedLocation;
             System.out.println("Location set to " + currentLocation);
+            if(selectedLocation == LocationList.CentralMountain || selectedLocation == LocationList.Market){
+                System.out.println("Warning! Requires outLocation and parameter to be set! Otherwise the game will crash!");
+            }
         } else {
             System.out.println("Invalid location!");
         }
@@ -416,34 +443,29 @@ public class SaveManipulator {
     public void SetOutLocation(OutLocation selectedOutLocation) {
         if (selectedOutLocation != null) {
             //Special case for Shi Chieng.
-            if(currentLocation == LocationList.CentralMountain) {
+            if (currentLocation == LocationList.CentralMountain) {
                 if (selectedOutLocation == OutLocation.MingKen) {
                     System.out.println("Special case, Setting to MokuGyouTree and parameter to 016'");
                     currentParameter = Parameter.Sixteen;
                     outLocation = OutLocation.MokuGyouTree;
 
-                }
-                else if (selectedOutLocation == OutLocation.ShiChieng) {
+                } else if (selectedOutLocation == OutLocation.ShiChieng) {
                     currentParameter = Parameter.Mount;
                     outLocation = selectedOutLocation;
 
-                }
-                else if (selectedOutLocation == OutLocation.YuiWang) {
+                } else if (selectedOutLocation == OutLocation.YuiWang) {
                     currentParameter = Parameter.YFive;
                     outLocation = selectedOutLocation;
 
-                }
-                else if (selectedOutLocation == OutLocation.MonChien) {
+                } else if (selectedOutLocation == OutLocation.MonChien) {
                     outLocation = OutLocation.MonChien;
                     currentParameter = Parameter.Back;
 
-                }
-                else if (selectedOutLocation == OutLocation.GreenFace) {
+                } else if (selectedOutLocation == OutLocation.GreenFace) {
                     outLocation = OutLocation.GreenFace;
                     currentParameter = Parameter.Back;
 
-                }
-                else{
+                } else {
                     System.out.println("Illegal location for Central Mountain: " + selectedOutLocation);
                 }
                 /*
@@ -468,36 +490,42 @@ public class SaveManipulator {
                 }
                 */
             }
-            if(currentLocation == LocationList.Market) {
-                if(selectedOutLocation == OutLocation.RockRoom){
+            if (currentLocation == LocationList.Market) {
+                if (selectedOutLocation == OutLocation.RockRoom) {
                     currentParameter = Parameter.Right;
                     outLocation = selectedOutLocation;
-                }
-                else if(selectedOutLocation == OutLocation.MingKen){
+                } else if (selectedOutLocation == OutLocation.MingKen) {
                     currentParameter = Parameter.fBack;
                     outLocation = selectedOutLocation;
-                }
-                else if(selectedOutLocation == OutLocation.YuiWang){
+                } else if (selectedOutLocation == OutLocation.YuiWang) {
                     currentParameter = Parameter.Back;
                     outLocation = selectedOutLocation;
-                }
-                else if(selectedOutLocation == OutLocation.MonChien){
+                } else if (selectedOutLocation == OutLocation.MonChien) {
                     System.out.println("Special case, Setting to RockRoom and parameter to Right");
                     currentParameter = Parameter.Right;
                     outLocation = OutLocation.RockRoom;
-                }
-                else{
+                } else {
                     System.out.println("Illegal location for Market: " + selectedOutLocation);
                 }
             }
-            if(outLocation != null && currentParameter != null) {
+            if (outLocation != null && currentParameter != null) {
                 System.out.println("A way out set to " + outLocation);
                 System.out.println("Parameter " + currentParameter);
             }
-        } else{
+        } else {
             System.out.println("Invalid location!");
         }
         System.out.println();
+    }
+    public LocationList SetFromString(String value){
+        LocationList tempLocationList = LocationList.CentralMountain;
+        for(LocationList temp : LocationList.values()){
+            if(value.toUpperCase().equals(temp.name)){
+                System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
+                    tempLocationList = temp;
+                }
+        }
+        return tempLocationList;
     }
 
     public void SetFrame(int frame) {
