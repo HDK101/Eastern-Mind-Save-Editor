@@ -19,13 +19,17 @@ public class SaveManipulator {
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    private String[] lines;
+    public String[] lines;
     //endregion
 
     //region Character variables
     private int currentCharacter = 0;
     private String[] characterNames;
 
+    //endregion
+
+    //region Tong Nou Seal variables
+    public boolean sealsRemoved;
     //endregion
 
     //region Location Variables
@@ -226,13 +230,12 @@ public class SaveManipulator {
         System.out.println();
     }
 
-    public void SetAllItem() {
-        boolean tempItemState = itemList[0];
+    public void SetAllItem(boolean possession) {
 
         for (int i = 0; i < itemList.length; i++) {
-            itemList[i] = !tempItemState;
+            itemList[i] = possession;
         }
-        System.out.println("All Items possessions set to " + itemList[0]);
+        System.out.println("All Items possessions set to " + possession);
         System.out.println();
     }
 
@@ -312,6 +315,10 @@ public class SaveManipulator {
             extractedLocation = extractedLocation.replace(".dxr","");
             currentLocation = SetFromString(extractedLocation);
 
+            //Extract seals variable
+            String sealLine = lines[12];
+            sealsRemoved = sealLine == "1";
+
         } catch (IOException ex) {
             System.out.println("Eastern Mind save file not found: +" + ex.getMessage());
             loadFailed = true;
@@ -370,7 +377,12 @@ public class SaveManipulator {
                 } else if (currentLine == 7 && currentParameter != null) {
                     bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
                     bufferedWriter.write("\r");
-                } else {
+                }
+                else if (currentLine == 13) {
+                    bufferedWriter.write(GetSealValue());
+                    bufferedWriter.write("\r");
+                }
+                else {
                     bufferedWriter.write(line);
                     bufferedWriter.write("\r");
                 }
@@ -438,6 +450,8 @@ public class SaveManipulator {
         } else {
             System.out.println("Invalid location!");
         }
+        System.out.println();
+
     }
 
     public void SetOutLocation(OutLocation selectedOutLocation) {
@@ -532,6 +546,17 @@ public class SaveManipulator {
         currentFrame = frame;
         System.out.println("Frame set to " + frame);
         System.out.println();
+    }
+    //endregion
+
+    //region Seals method
+    public void SetTongNouSeal(boolean remove){
+        sealsRemoved = remove;
+        System.out.println("Seals set to " + remove);
+        System.out.println();
+    }
+    char GetSealValue(){
+        return (sealsRemoved) ? '1' : ' ';
     }
     //endregion
 
