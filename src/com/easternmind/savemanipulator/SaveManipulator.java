@@ -164,7 +164,6 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
-
     private LocationList currentLocation;
 
 
@@ -194,7 +193,6 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
-
     //Location for parameter in line 7.
     public OutLocation outLocation;
 
@@ -215,9 +213,10 @@ public class SaveManipulator {
             return name;
         }
     }
-
     //Parameter for line 7
     public Parameter currentParameter;
+
+    public int helixCurrentFloor;
 
     //endregion
 
@@ -313,11 +312,23 @@ public class SaveManipulator {
             String extractedLocation = lines[2];
             extractedLocation = extractedLocation.replace(GetGamePath(),"");
             extractedLocation = extractedLocation.replace(".dxr","");
-            currentLocation = SetFromString(extractedLocation);
+            currentLocation = SetLocationFromString(extractedLocation);
 
             //Extract seals variable
             String sealLine = lines[12];
             sealsRemoved = sealLine == "1";
+
+            //Extract current floor in Helix Place/ secondary location
+            String lineSix = lines[6];
+            if(lineSix != null){
+                if(LineSixIsNumber(lineSix)) helixCurrentFloor = Integer.parseInt(lineSix);
+
+                System.out.println("Extracted current floor for Helix:" + helixCurrentFloor);
+                /*
+                helixCurrentFloor = Integer.parseInt(helixCurrentFloorLine);
+                  System.out.println(helixCurrentFloor);
+                  */
+            }
 
         } catch (IOException ex) {
             System.out.println("Eastern Mind save file not found: +" + ex.getMessage());
@@ -374,8 +385,9 @@ public class SaveManipulator {
                 else if (currentLine == 5) {
                     bufferedWriter.write(String.valueOf(currentFrame));
                     bufferedWriter.write("\r");
-                } else if (currentLine == 7 && currentParameter != null) {
-                    bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
+                } else if (currentLine == 7) {
+                    if(currentParameter != null) bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
+                    else bufferedWriter.write("");
                     bufferedWriter.write("\r");
                 }
                 else if (currentLine == 13) {
@@ -531,7 +543,8 @@ public class SaveManipulator {
         }
         System.out.println();
     }
-    public LocationList SetFromString(String value){
+
+    public LocationList SetLocationFromString(String value){
         LocationList tempLocationList = LocationList.CentralMountain;
         for(LocationList temp : LocationList.values()){
             if(value.toUpperCase().equals(temp.name)){
@@ -540,6 +553,39 @@ public class SaveManipulator {
                 }
         }
         return tempLocationList;
+    }
+
+    public Parameter SetParameterFromString(String value){
+        Parameter tempParameter = Parameter.Back;
+        for(Parameter temp : Parameter.values()){
+            if(value.toUpperCase().equals(temp.name)){
+                System.out.printf("Extracted parameter: %s(%s)%n", temp, temp.getParameter());
+                tempParameter = temp;
+            }
+        }
+        return tempParameter;
+    }
+
+    public OutLocation SetOutLocationFromString(String value){
+        OutLocation tempOutLocation = OutLocation.MonChien;
+        for(OutLocation temp : OutLocation.values()){
+            if(value.toUpperCase().equals(temp.name)){
+                System.out.printf("Extracted secondary location: %s(%s)%n", temp, temp.getName());
+                tempOutLocation = temp;
+            }
+        }
+        return tempOutLocation;
+    }
+
+    public boolean LineSixIsNumber(String value){
+        try{
+            Integer.parseInt(value);
+            return true;
+        }
+        catch (NumberFormatException ex){
+            System.out.println("Line 6 doesn't hold a value, probably holds a parameter and a secondary location");
+            return false;
+        }
     }
 
     public void SetFrame(int frame) {

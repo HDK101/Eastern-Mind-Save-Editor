@@ -23,11 +23,11 @@ easternSave.SetAllItem(true);
         //Set character to BYOU
         easternSave.SetCharacter(1);
 
-        easternSave.SetTongNouSeal(false);
+        easternSave.SetTongNouSeal(true);
 
         //Set location to TongNouFace and the way to market changed to MingKenField
         easternSave.SetLocation(SaveManipulator.LocationList.CentralMountain);
-        easternSave.SetOutLocation(SaveManipulator.OutLocation.MonChien);
+        //easternSave.SetOutLocation(SaveManipulator.OutLocation.MonChien);
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();
