@@ -16,7 +16,7 @@ public class Main {
         //easternSave.SetItem(8);
         //easternSave.SetItem(9);
 easternSave.SetAllItem(true);
-
+easternSave.SetHelixFloor(6);
         //Set current frame
         easternSave.SetFrame(20);
 

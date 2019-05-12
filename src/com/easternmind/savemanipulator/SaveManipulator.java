@@ -4,6 +4,7 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.File;
+import java.math.*;
 
 public class SaveManipulator {
 
@@ -189,9 +190,13 @@ public class SaveManipulator {
             this.name = name;
         }
 
-        public String getName() {
+        public String getFile() {
             return name + ".dxr";
         }
+        public String getName() {
+            return name;
+        }
+
     }
     //Location for parameter in line 7.
     public OutLocation outLocation;
@@ -216,7 +221,7 @@ public class SaveManipulator {
     //Parameter for line 7
     public Parameter currentParameter;
 
-    public int helixCurrentFloor;
+    public int currentHelixFloor;
 
     //endregion
 
@@ -321,13 +326,17 @@ public class SaveManipulator {
             //Extract current floor in Helix Place/ secondary location
             String lineSix = lines[6];
             if(lineSix != null){
-                if(LineSixIsNumber(lineSix)) helixCurrentFloor = Integer.parseInt(lineSix);
+                if(LineSixIsNumber(lineSix)){
+                    currentHelixFloor = Integer.parseInt(lineSix);
+                    System.out.println("Extracted current floor for Helix:" + currentHelixFloor);
 
-                System.out.println("Extracted current floor for Helix:" + helixCurrentFloor);
-                /*
-                helixCurrentFloor = Integer.parseInt(helixCurrentFloorLine);
-                  System.out.println(helixCurrentFloor);
-                  */
+                }
+                else{
+                    String[] parameterAndPlace = lineSix.split(",");
+                    currentParameter = SetParameterFromString(parameterAndPlace[0]);
+                    outLocation = SetOutLocationFromString(parameterAndPlace[1]);
+
+                }
             }
 
         } catch (IOException ex) {
@@ -386,7 +395,8 @@ public class SaveManipulator {
                     bufferedWriter.write(String.valueOf(currentFrame));
                     bufferedWriter.write("\r");
                 } else if (currentLine == 7) {
-                    if(currentParameter != null) bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getName());
+                    if(currentParameter != null) bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getFile());
+                    else if(currentHelixFloor != 0) bufferedWriter.write(String.valueOf(currentHelixFloor));
                     else bufferedWriter.write("");
                     bufferedWriter.write("\r");
                 }
@@ -549,6 +559,7 @@ public class SaveManipulator {
         for(LocationList temp : LocationList.values()){
             if(value.toUpperCase().equals(temp.name)){
                 System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
+                System.out.println();
                     tempLocationList = temp;
                 }
         }
@@ -558,8 +569,9 @@ public class SaveManipulator {
     public Parameter SetParameterFromString(String value){
         Parameter tempParameter = Parameter.Back;
         for(Parameter temp : Parameter.values()){
-            if(value.toUpperCase().equals(temp.name)){
+            if(value.equals(temp.name)){
                 System.out.printf("Extracted parameter: %s(%s)%n", temp, temp.getParameter());
+                System.out.println();
                 tempParameter = temp;
             }
         }
@@ -569,8 +581,9 @@ public class SaveManipulator {
     public OutLocation SetOutLocationFromString(String value){
         OutLocation tempOutLocation = OutLocation.MonChien;
         for(OutLocation temp : OutLocation.values()){
-            if(value.toUpperCase().equals(temp.name)){
+            if(value.toUpperCase().equals(temp.getFile().toUpperCase())){
                 System.out.printf("Extracted secondary location: %s(%s)%n", temp, temp.getName());
+                System.out.println();
                 tempOutLocation = temp;
             }
         }
@@ -584,6 +597,7 @@ public class SaveManipulator {
         }
         catch (NumberFormatException ex){
             System.out.println("Line 6 doesn't hold a value, probably holds a parameter and a secondary location");
+            System.out.println();
             return false;
         }
     }
@@ -592,6 +606,19 @@ public class SaveManipulator {
         currentFrame = frame;
         System.out.println("Frame set to " + frame);
         System.out.println();
+    }
+    
+    public void SetHelixFloor(int floor){
+        if(floor < 1 && floor > 18) {
+            System.out.println("Invalid floor for Helix-Place");
+            System.out.println();
+            currentHelixFloor = 0;
+        }
+        else {
+            System.out.println("Floor for Helix-Place set to " + floor);
+            System.out.println();
+            currentHelixFloor = floor;
+        }
     }
     //endregion
 
