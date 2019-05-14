@@ -9,7 +9,7 @@ public class Main{
         easternSave.SetFileName("input");
 
         easternSave.LoadFile();
-
+       //Test
         //Set item 2,3,4 availability
         //easternSave.SetItem(18);
         //easternSave.SetItem(8);
