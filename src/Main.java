@@ -1,9 +1,8 @@
 
 import java.io.*;
-
 import com.easternmind.savemanipulator.*;
 
-public class Main {
+public class Main{
 
     public static void main(String[] args) throws IOException {
         SaveManipulator easternSave = new SaveManipulator();
@@ -15,8 +14,8 @@ public class Main {
         //easternSave.SetItem(18);
         //easternSave.SetItem(8);
         //easternSave.SetItem(9);
-easternSave.SetAllItem(true);
-easternSave.SetHelixFloor(6);
+        easternSave.SetAllItem(true);
+        easternSave.SetHelixFloor(6);
         //Set current frame
         easternSave.SetFrame(20);
 
@@ -33,5 +32,5 @@ easternSave.SetHelixFloor(6);
         easternSave.WriteFile();
 
     }
-
 }
+
