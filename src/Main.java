@@ -1,15 +1,28 @@
 
 import java.io.*;
 import com.easternmind.savemanipulator.*;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-public class Main{
+public class Main extends Application {
+
+    @Override
+    public void start(Stage primaryStage) throws Exception{
+        Parent root = FXMLLoader.load(getClass().getResource("sample/sample.fxml"));
+        primaryStage.setTitle("Hello World");
+        primaryStage.setScene(new Scene(root, 300, 275));
+        primaryStage.show();
+    }
+
 
     public static void main(String[] args) throws IOException {
         SaveManipulator easternSave = new SaveManipulator();
         easternSave.SetFileName("input");
 
         easternSave.LoadFile();
-       //Test
         //Set item 2,3,4 availability
         //easternSave.SetItem(18);
         //easternSave.SetItem(8);
@@ -30,7 +43,7 @@ public class Main{
 
         //easternSave.SetAllItem();
         easternSave.WriteFile();
-
+        launch(args);
     }
 }
 
