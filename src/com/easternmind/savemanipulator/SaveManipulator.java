@@ -20,7 +20,7 @@ public class SaveManipulator {
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
 
-    public String[] lines;
+    private String[] lines;
     //endregion
 
     //region Character variables
