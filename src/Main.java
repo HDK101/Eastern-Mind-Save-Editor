@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Main extends Application {
+    //Eastern Mind Save Editor Class
+    public static SaveManipulator easternSave;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -20,12 +22,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 600, 400));
         primaryStage.setResizable(false);
         primaryStage.show();
-        ManipulatorController manipulatorController = new ManipulatorController();
-        ManipulatorController.instance().primaryStage = primaryStage;
 
         Scene scene = primaryStage.getScene();
-        ChoiceBox choiceBox = new ChoiceBox();
-        choiceBox = (ChoiceBox) scene.lookup("locationBox");
         //System.out.println(choiceBox.getValue());
     }
 

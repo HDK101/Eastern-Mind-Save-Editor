@@ -3,25 +3,48 @@ package com.easternmind.savemanipulator;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.MenuItem;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Controller {
+
+    @FXML
+    private MenuItem save;
+
+    @FXML
+    private AnchorPane anchorPane;
+
     @FXML
     public void LoadDialog(ActionEvent event) throws IOException, InvalidEasternMindFileException {
-        ManipulatorController.instance().InitializeSaveManipulator();
+        SaveManipulator.instance().Reset();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Load Save File");
+        File selectedFile = fileChooser.showOpenDialog(anchorPane.getScene().getWindow());
+        if(selectedFile != null) {
+            SaveManipulator.instance().SetFileName(
+                    selectedFile.getPath()
+            );
+            SaveManipulator.instance().LoadFile();
+        }
+        if(SaveManipulator.instance().checkIfFileIsLoaded()) {
+            save.setDisable(false);
+        }
     }
 
     @FXML
     public void SaveFile(ActionEvent event) throws IOException {
-        ManipulatorController.instance().SaveFile();
+        SaveManipulator.instance().WriteFile();
     }
 
     @FXML
     public void CloseFile(ActionEvent event){
-        ManipulatorController.instance().CloseFile();
+        SaveManipulator.instance().Reset();
+        System.out.println("File closed!");
     }
 
     @FXML

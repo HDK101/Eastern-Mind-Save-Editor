@@ -8,6 +8,20 @@ import java.math.*;
 
 public class SaveManipulator {
 
+    //region Global Variable
+    private static SaveManipulator self;
+    public static  SaveManipulator instance(){
+        if(self == null){
+            self = new SaveManipulator();
+        }
+        return self;
+    }
+
+    public void Reset(){
+        self = new SaveManipulator();
+    }
+    //endregion
+
     //region Item variable
     private boolean[] itemList;
     private String[] itemNames;
@@ -16,6 +30,11 @@ public class SaveManipulator {
     //region File variables
     public boolean usingTemplate;
     private boolean fileLoaded;
+
+    public boolean checkIfFileIsLoaded(){
+        return fileLoaded;
+    }
+
     private String fileName;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
