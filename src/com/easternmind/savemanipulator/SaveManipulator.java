@@ -15,7 +15,7 @@ public class SaveManipulator {
 
     //region File variables
     public boolean usingTemplate;
-    private boolean loadFailed;
+    private boolean fileLoaded;
     private String fileName;
     private BufferedReader bufferedReader;
     private BufferedWriter bufferedWriter;
@@ -166,7 +166,8 @@ public class SaveManipulator {
         }
     }
     private LocationList currentLocation;
-
+    private boolean isCustomLocation;
+    private String customLocation;
 
     public enum OutLocation {
         GreenFace("d_face"),
@@ -221,6 +222,7 @@ public class SaveManipulator {
     //Parameter for line 7
     public Parameter currentParameter;
 
+    //Floor for Helix-Place
     public int currentHelixFloor;
 
     //endregion
@@ -284,7 +286,7 @@ public class SaveManipulator {
 
         try {
             if(!usingTemplate) {
-                bufferedReader = new BufferedReader(new FileReader(String.format("%s.txt", fileName)));
+                bufferedReader = new BufferedReader(new FileReader(String.format("%s", fileName)));
             }
             else bufferedReader = new BufferedReader(new FileReader("resources\\savetemplate\\SAVEGAME.txt"));
 
@@ -318,6 +320,11 @@ public class SaveManipulator {
             extractedLocation = extractedLocation.replace(GetGamePath(),"");
             extractedLocation = extractedLocation.replace(".dxr","");
             currentLocation = SetLocationFromString(extractedLocation);
+            if(currentLocation == null){
+                System.out.println("Not an usual location, setting as a custom: " + extractedLocation);
+                isCustomLocation = true;
+                customLocation = extractedLocation;
+            }
 
             //Extract seals variable
             String sealLine = lines[12];
@@ -339,19 +346,21 @@ public class SaveManipulator {
                 }
             }
 
+            fileLoaded = true;
+
         } catch (IOException ex) {
             System.out.println("Eastern Mind save file not found: +" + ex.getMessage());
-            loadFailed = true;
+            fileLoaded = false;
 
         } catch (ArrayIndexOutOfBoundsException ex) {
-            System.out.println("Probably not an Eastern Mind save file, Line " + ex.getMessage() + " not found!");
-            loadFailed = true;
+            System.out.println("Probably not an Eastern Mind save file, Line " + ex.getMessage() + " out of range!");
+            fileLoaded = false;
 
         } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
             }
-            if (!loadFailed) {
+            if (fileLoaded) {
                 System.out.println("Save file loaded!");
             } else System.out.println("Failed to load the save, check above.");
 
@@ -361,9 +370,8 @@ public class SaveManipulator {
 
     public void WriteFile() throws IOException {
 
-        bufferedWriter = new BufferedWriter(new FileWriter(fileName + ".txt"));
-
-        if (!loadFailed) {
+        if (fileLoaded) {
+            bufferedWriter = new BufferedWriter(new FileWriter(fileName));
             System.out.println("Beginning to write file...");
 
             int currentLine = 0;
@@ -387,7 +395,8 @@ public class SaveManipulator {
                 }
                 //Write currentLocation
                 else if (currentLine == 3) {
-                    bufferedWriter.write(GetGamePath() + currentLocation.getFile());
+                    if(!isCustomLocation) bufferedWriter.write(GetGamePath() + currentLocation.getFile());
+                    else bufferedWriter.write(GetGamePath() + customLocation + ".dxr");
                     bufferedWriter.write("\r");
                 }
                 //Write currentFrame
@@ -425,7 +434,7 @@ public class SaveManipulator {
     public void SetFileName(String name) {
         File tempFile = new File(name);
         if(tempFile.exists()) {
-            System.out.println("Save file name:" + name + ".txt");
+            System.out.println("Save file name:" + name);
             System.out.println();
         }
         else{
@@ -469,6 +478,7 @@ public class SaveManipulator {
             if(selectedLocation == LocationList.CentralMountain || selectedLocation == LocationList.Market){
                 System.out.println("Warning! Requires outLocation and parameter to be set! Otherwise the game will crash!");
             }
+            isCustomLocation = false;
         } else {
             System.out.println("Invalid location!");
         }
@@ -555,7 +565,7 @@ public class SaveManipulator {
     }
 
     public LocationList SetLocationFromString(String value){
-        LocationList tempLocationList = LocationList.CentralMountain;
+        LocationList tempLocationList = null;
         for(LocationList temp : LocationList.values()){
             if(value.toUpperCase().equals(temp.name)){
                 System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());

@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane fx:controller="com.easternmind.savemanipulator.Controller" id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="287.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="287.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="com.easternmind.savemanipulator.Controller">
   <children>
     <TabPane layoutX="0.0" layoutY="24.0" prefHeight="376.0" prefWidth="600.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
@@ -34,8 +34,8 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#LoadDialog" text="Load Save File" />
-            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#LoadDialog" text="Load File" />
+            <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Save File" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">

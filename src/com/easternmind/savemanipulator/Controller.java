@@ -13,6 +13,11 @@ public class Controller {
         ManipulatorController.instance().InitializeSaveManipulator();
     }
 
+    @FXML
+    public void SaveFile(ActionEvent event) throws IOException {
+        ManipulatorController.instance().SaveFile();
+    }
+
 
     @FXML
     public void Shout() {

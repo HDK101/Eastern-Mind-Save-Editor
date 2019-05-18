@@ -23,12 +23,18 @@ public class ManipulatorController {
         easternSave = new SaveManipulator();
     }
 
+
     public void InitializeSaveManipulator() throws IOException {
+        easternSave = new SaveManipulator();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Save File");
         easternSave.SetFileName(
-                fileChooser.showOpenDialog(primaryStage).getName()
+                fileChooser.showOpenDialog(primaryStage).getPath()
         );
         easternSave.LoadFile();
+    }
+
+    public void SaveFile() throws IOException{
+        easternSave.WriteFile();
     }
 }
