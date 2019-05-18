@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Controller {
 
     @FXML
-    private MenuItem save;
+    private MenuItem save, saveAs, close;
 
     @FXML
     private AnchorPane anchorPane;
@@ -33,6 +33,8 @@ public class Controller {
         }
         if(SaveManipulator.instance().checkIfFileIsLoaded()) {
             save.setDisable(false);
+            saveAs.setDisable(false);
+            close.setDisable(false);
         }
     }
 
