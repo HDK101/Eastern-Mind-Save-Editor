@@ -46,6 +46,9 @@ public class Controller {
     @FXML
     public void CloseFile(ActionEvent event){
         SaveManipulator.instance().Reset();
+        save.setDisable(true);
+        saveAs.setDisable(true);
+        close.setDisable(true);
         System.out.println("File closed!");
     }
 
