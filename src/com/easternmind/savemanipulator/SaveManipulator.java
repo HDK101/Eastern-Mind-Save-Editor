@@ -266,7 +266,7 @@ public class SaveManipulator {
     //endregion
 
     //region IOMethods
-    public void LoadFile() throws IOException {
+    public void LoadFile() throws IOException, InvalidEasternMindFileException {
 
         //region INITIALIZE
         itemList = new boolean[53];
@@ -298,6 +298,8 @@ public class SaveManipulator {
             }
             lines = new String[lineList.size()];
             lines = lineList.toArray(lines);
+
+            CheckSaveAuthenticity(lines[0]);
 
             //Extract current character from file
             String extractedCharacter = lines[3];
@@ -356,7 +358,10 @@ public class SaveManipulator {
             System.out.println("Probably not an Eastern Mind save file, Line " + ex.getMessage() + " out of range!");
             fileLoaded = false;
 
-        } finally {
+        }catch (InvalidEasternMindFileException ex) {
+            System.out.println("Probably not an Eastern Mind save file, First Line: " + ex.saveIdentifierLine() + " Not found!");
+        }
+        finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
             }
@@ -429,6 +434,12 @@ public class SaveManipulator {
             bufferedWriter.close();
         }
         System.out.println();
+    }
+
+    public void CheckSaveAuthenticity(String line) throws InvalidEasternMindFileException{
+          if(!line.equals("***Tong Nou DATA file***")){
+              throw new InvalidEasternMindFileException();
+          }
     }
 
     public void SetFileName(String name) {

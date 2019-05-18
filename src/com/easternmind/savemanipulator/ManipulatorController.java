@@ -26,14 +26,14 @@ public class ManipulatorController {
     }
 
 
-    public void InitializeSaveManipulator() throws IOException {
+    public void InitializeSaveManipulator() throws IOException, InvalidEasternMindFileException {
         easternSave = new SaveManipulator();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Save File");
         File selectedFile = fileChooser.showOpenDialog(primaryStage);
         if(selectedFile != null) {
             easternSave.SetFileName(
-                    fileChooser.showOpenDialog(primaryStage).getPath()
+                    selectedFile.getPath()
             );
             easternSave.LoadFile();
         }
@@ -41,5 +41,10 @@ public class ManipulatorController {
 
     public void SaveFile() throws IOException{
         easternSave.WriteFile();
+    }
+
+    public void CloseFile(){
+        easternSave = new SaveManipulator();
+        System.out.println("File closed!");
     }
 }

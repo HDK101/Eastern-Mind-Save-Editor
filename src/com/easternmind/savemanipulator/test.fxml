@@ -37,8 +37,8 @@
             <MenuItem mnemonicParsing="false" onAction="#LoadDialog" text="Load File" />
             <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Save File" />
             <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Save As..." />
-            <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Close" />
-            <MenuItem mnemonicParsing="false" onAction="#SaveFile" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#CloseFile" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#Quit" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
