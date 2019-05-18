@@ -2,6 +2,8 @@ package com.easternmind.savemanipulator;
 
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 
 public class ManipulatorController {
@@ -28,10 +30,13 @@ public class ManipulatorController {
         easternSave = new SaveManipulator();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Load Save File");
-        easternSave.SetFileName(
-                fileChooser.showOpenDialog(primaryStage).getPath()
-        );
-        easternSave.LoadFile();
+        File selectedFile = fileChooser.showOpenDialog(primaryStage);
+        if(selectedFile != null) {
+            easternSave.SetFileName(
+                    fileChooser.showOpenDialog(primaryStage).getPath()
+            );
+            easternSave.LoadFile();
+        }
     }
 
     public void SaveFile() throws IOException{
