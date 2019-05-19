@@ -36,8 +36,8 @@
           <items>
             <MenuItem mnemonicParsing="false" onAction="#LoadDialog" text="Load File" />
             <MenuItem fx:id = "save" mnemonicParsing="false" disable="true" onAction="#SaveFile" text="Save File" />
-            <MenuItem fx:id = "saveAs" mnemonicParsing="false" onAction="#SaveFile" text="Save As..." />
-            <MenuItem fx:id = "close" mnemonicParsing="false" onAction="#CloseFile" text="Close" />
+            <MenuItem fx:id = "saveAs" mnemonicParsing="false" disable="true" onAction="#SaveAsFile" text="Save As..." />
+            <MenuItem fx:id = "close" mnemonicParsing="false" disable="true" onAction="#CloseFile" text="Close" />
             <MenuItem mnemonicParsing="false" onAction="#Quit" text="Quit" />
           </items>
         </Menu>

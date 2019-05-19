@@ -22,8 +22,12 @@ public class Controller {
     @FXML
     public void LoadDialog(ActionEvent event) throws IOException, InvalidEasternMindFileException {
         SaveManipulator.instance().Reset();
+
         FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT Files","*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
         fileChooser.setTitle("Load Save File");
+
         File selectedFile = fileChooser.showOpenDialog(anchorPane.getScene().getWindow());
         if(selectedFile != null) {
             SaveManipulator.instance().SetFileName(
@@ -41,6 +45,20 @@ public class Controller {
     @FXML
     public void SaveFile(ActionEvent event) throws IOException {
         SaveManipulator.instance().WriteFile();
+    }
+
+    @FXML
+    public void SaveAsFile(ActionEvent event) throws IOException{
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT Files","*.txt");
+        fileChooser.getExtensionFilters().add(extensionFilter);
+        fileChooser.setTitle("Save as...");
+
+        File saveFile = fileChooser.showSaveDialog(anchorPane.getScene().getWindow());
+        if(saveFile != null){
+            SaveManipulator.instance().SetFileName(saveFile.getPath());
+            SaveManipulator.instance().WriteFile();
+        }
     }
 
     @FXML

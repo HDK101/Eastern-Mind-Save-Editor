@@ -467,10 +467,6 @@ public class SaveManipulator {
             System.out.println("Save file name:" + name);
             System.out.println();
         }
-        else{
-            System.out.println("Save file name:" + name + ".txt doesn't exist, using template...");
-            usingTemplate = true;
-        }
         fileName = name;
     }
 
