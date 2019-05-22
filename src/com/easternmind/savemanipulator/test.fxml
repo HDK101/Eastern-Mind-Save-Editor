@@ -11,17 +11,14 @@
   <children>
     <TabPane layoutX="0.0" layoutY="24.0" prefHeight="376.0" prefWidth="600.0" side="BOTTOM" tabClosingPolicy="UNAVAILABLE">
       <tabs>
-        <Tab text="Untitled Tab 1">
+        <Tab closable="false" text="Overview">
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="355.0" prefWidth="600.0">
               <children>
-                <ChoiceBox fx:id="locationBox" disable="false" layoutX="23.0" layoutY="47.0" opacity="1.0">
+                <CheckBox fx:id="possesionCheckbox" layoutX="80.0" layoutY="50.0" mnemonicParsing="false" text="Possession" />
+                <ChoiceBox fx:id="itemBox" disable="false" layoutX="23.0" layoutY="47.0" onContextMenuRequested="#SetCheckBox" opacity="1.0">
                   <items>
-                    <FXCollections fx:factory="observableArrayList">
-                      <String fx:value="Item 1" />
-                      <String fx:value="Item 2" />
-                      <String fx:value="Item 3" />
-                    </FXCollections>
+                    <FXCollections fx:factory="observableArrayList" />
                   </items>
                 </ChoiceBox>
               </children>
@@ -35,15 +32,10 @@
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#LoadDialog" text="Load File" />
-            <MenuItem fx:id = "save" mnemonicParsing="false" disable="true" onAction="#SaveFile" text="Save File" />
-            <MenuItem fx:id = "saveAs" mnemonicParsing="false" disable="true" onAction="#SaveAsFile" text="Save As..." />
-            <MenuItem fx:id = "close" mnemonicParsing="false" disable="true" onAction="#CloseFile" text="Close" />
+            <MenuItem disable="true" mnemonicParsing="false" onAction="#SaveFile" text="Save File" fx:id="save" />
+            <MenuItem disable="true" mnemonicParsing="false" onAction="#SaveAsFile" text="Save As..." fx:id="saveAs" />
+            <MenuItem disable="true" mnemonicParsing="false" onAction="#CloseFile" text="Close" fx:id="close" />
             <MenuItem mnemonicParsing="false" onAction="#Quit" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Delete" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

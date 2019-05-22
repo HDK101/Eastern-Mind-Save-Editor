@@ -1,8 +1,12 @@
 package com.easternmind.savemanipulator;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
@@ -10,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Controller {
 
@@ -17,7 +22,13 @@ public class Controller {
     private MenuItem save, saveAs, close;
 
     @FXML
-    private AnchorPane anchorPane;
+    private ChoiceBox<String> itemBox;
+
+    @FXML
+    public CheckBox possesionCheckbox;
+
+    @FXML
+    public AnchorPane anchorPane;
 
     @FXML
     public void LoadDialog(ActionEvent event) throws IOException, InvalidEasternMindFileException {
@@ -36,15 +47,28 @@ public class Controller {
             SaveManipulator.instance().LoadFile();
         }
         if(SaveManipulator.instance().checkIfFileIsLoaded()) {
+            //Enable menu buttons
             save.setDisable(false);
             saveAs.setDisable(false);
             close.setDisable(false);
+
+            //Add Items to itemBox
+            ObservableList<String> list = FXCollections.observableArrayList(SaveManipulator.instance().itemNames);
+            itemBox.setItems(list);
+        }
+    }
+
+    @FXML
+    public void SetCheckbox(){
+        if(SaveManipulator.instance().checkIfFileIsLoaded()){
+            //possesionCheckbox.setSelected();
         }
     }
 
     @FXML
     public void SaveFile(ActionEvent event) throws IOException {
         SaveManipulator.instance().WriteFile();
+        SaveManipulator.instance().SetItem(itemBox.getValue());
     }
 
     @FXML

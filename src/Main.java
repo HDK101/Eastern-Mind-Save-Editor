@@ -27,6 +27,10 @@ public class Main extends Application {
         //System.out.println(choiceBox.getValue());
     }
 
+    public void CreateCheckboxItems(){
+
+    }
+
     public static void main(String[] args) {
 
         launch(args);

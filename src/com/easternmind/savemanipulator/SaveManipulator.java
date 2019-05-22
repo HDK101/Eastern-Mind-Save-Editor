@@ -10,28 +10,29 @@ public class SaveManipulator {
 
     //region Global Variable
     private static SaveManipulator self;
-    public static  SaveManipulator instance(){
-        if(self == null){
+
+    public static SaveManipulator instance() {
+        if (self == null) {
             self = new SaveManipulator();
         }
         return self;
     }
 
-    public void Reset(){
+    public void Reset() {
         self = new SaveManipulator();
     }
     //endregion
 
     //region Item variable
     private boolean[] itemList;
-    private String[] itemNames;
+    public String[] itemNames;
     //endregion
 
     //region File variables
     public boolean usingTemplate;
     private boolean fileLoaded;
 
-    public boolean checkIfFileIsLoaded(){
+    public boolean checkIfFileIsLoaded() {
         return fileLoaded;
     }
 
@@ -184,6 +185,7 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
+
     private LocationList currentLocation;
     private boolean isCustomLocation;
     private String customLocation;
@@ -213,11 +215,13 @@ public class SaveManipulator {
         public String getFile() {
             return name + ".dxr";
         }
+
         public String getName() {
             return name;
         }
 
     }
+
     //Location for parameter in line 7.
     public OutLocation outLocation;
 
@@ -238,6 +242,7 @@ public class SaveManipulator {
             return name;
         }
     }
+
     //Parameter for line 7
     public Parameter currentParameter;
 
@@ -253,6 +258,20 @@ public class SaveManipulator {
         System.out.println("Item number " + i + ":");
         System.out.println(itemNames[i] + " possession set to " + itemList[i]);
         System.out.println();
+    }
+
+    public void SetItem(String value) {
+        if(value != null) {
+            for (int i = 0; i < itemNames.length; i++) {
+                if (value.equals(itemNames[i])) {
+                    itemList[i] = !itemList[i];
+                    System.out.println("Item number " + i + ":");
+                    System.out.println(itemNames[i] + " possession set to " + itemList[i]);
+                    System.out.println();
+                    break;
+                }
+            }
+        }
     }
 
     public void SetAllItem(boolean possession) {
@@ -298,16 +317,16 @@ public class SaveManipulator {
                 "LeafSack_full, WoodDisk,Registration,Mirror,Force_EARTH,Force_METAL," +
                 "Force_WATER,Force_WOOD,Force_FIRE,Sword";
         itemNames = allItemNames.split(",");
+        System.out.println(itemNames.length);
 
         String allCharacterNames = "Rin,Byou,Tou,Sha,Kai,Jin,Retsu,Zen,Gyou";
         characterNames = allCharacterNames.split(",");
         //endregion
 
         try {
-            if(!usingTemplate) {
+            if (!usingTemplate) {
                 bufferedReader = new BufferedReader(new FileReader(String.format("%s", fileName)));
-            }
-            else bufferedReader = new BufferedReader(new FileReader("resources\\savetemplate\\SAVEGAME.txt"));
+            } else bufferedReader = new BufferedReader(new FileReader("resources\\savetemplate\\SAVEGAME.txt"));
 
             List<String> lineList = new ArrayList();
             String line;
@@ -338,10 +357,10 @@ public class SaveManipulator {
             }
             //Extract current location from file
             String extractedLocation = lines[2];
-            extractedLocation = extractedLocation.replace(GetGamePath(),"");
-            extractedLocation = extractedLocation.replace(".dxr","");
+            extractedLocation = extractedLocation.replace(GetGamePath(), "");
+            extractedLocation = extractedLocation.replace(".dxr", "");
             currentLocation = SetLocationFromString(extractedLocation);
-            if(currentLocation == null){
+            if (currentLocation == null) {
                 System.out.println("Not an usual location, setting as a custom: " + extractedLocation);
                 isCustomLocation = true;
                 customLocation = extractedLocation;
@@ -353,13 +372,12 @@ public class SaveManipulator {
 
             //Extract current floor in Helix Place/ secondary location
             String lineSix = lines[6];
-            if(lineSix != null){
-                if(LineSixIsNumber(lineSix)){
+            if (lineSix != null) {
+                if (LineSixIsNumber(lineSix)) {
                     currentHelixFloor = Integer.parseInt(lineSix);
                     System.out.println("Extracted current floor for Helix:" + currentHelixFloor);
 
-                }
-                else{
+                } else {
                     String[] parameterAndPlace = lineSix.split(",");
                     currentParameter = SetParameterFromString(parameterAndPlace[0]);
                     outLocation = SetOutLocationFromString(parameterAndPlace[1]);
@@ -377,10 +395,9 @@ public class SaveManipulator {
             System.out.println("Probably not an Eastern Mind save file, Line " + ex.getMessage() + " out of range!");
             fileLoaded = false;
 
-        }catch (InvalidEasternMindFileException ex) {
+        } catch (InvalidEasternMindFileException ex) {
             System.out.println("Probably not an Eastern Mind save file, First Line: " + ex.saveIdentifierLine() + " Not found!");
-        }
-        finally {
+        } finally {
             if (bufferedReader != null) {
                 bufferedReader.close();
             }
@@ -419,7 +436,7 @@ public class SaveManipulator {
                 }
                 //Write currentLocation
                 else if (currentLine == 3) {
-                    if(!isCustomLocation) bufferedWriter.write(GetGamePath() + currentLocation.getFile());
+                    if (!isCustomLocation) bufferedWriter.write(GetGamePath() + currentLocation.getFile());
                     else bufferedWriter.write(GetGamePath() + customLocation + ".dxr");
                     bufferedWriter.write("\r");
                 }
@@ -428,16 +445,15 @@ public class SaveManipulator {
                     bufferedWriter.write(String.valueOf(currentFrame));
                     bufferedWriter.write("\r");
                 } else if (currentLine == 7) {
-                    if(currentParameter != null) bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getFile());
-                    else if(currentHelixFloor != 0) bufferedWriter.write(String.valueOf(currentHelixFloor));
+                    if (currentParameter != null)
+                        bufferedWriter.write(currentParameter.getParameter() + "," + outLocation.getFile());
+                    else if (currentHelixFloor != 0) bufferedWriter.write(String.valueOf(currentHelixFloor));
                     else bufferedWriter.write("");
                     bufferedWriter.write("\r");
-                }
-                else if (currentLine == 13) {
+                } else if (currentLine == 13) {
                     bufferedWriter.write(GetSealValue());
                     bufferedWriter.write("\r");
-                }
-                else {
+                } else {
                     bufferedWriter.write(line);
                     bufferedWriter.write("\r");
                 }
@@ -455,15 +471,15 @@ public class SaveManipulator {
         System.out.println();
     }
 
-    public void CheckSaveAuthenticity(String line) throws InvalidEasternMindFileException{
-          if(!line.equals("***Tong Nou DATA file***")){
-              throw new InvalidEasternMindFileException();
-          }
+    public void CheckSaveAuthenticity(String line) throws InvalidEasternMindFileException {
+        if (!line.equals("***Tong Nou DATA file***")) {
+            throw new InvalidEasternMindFileException();
+        }
     }
 
     public void SetFileName(String name) {
         File tempFile = new File(name);
-        if(tempFile.exists()) {
+        if (tempFile.exists()) {
             System.out.println("Save file name:" + name);
             System.out.println();
         }
@@ -472,14 +488,13 @@ public class SaveManipulator {
 
     public String GetGamePath() {
         //In Line 2, it is stored the place(.dxr)
-        if(lines[2] != null) {
+        if (lines[2] != null) {
             File path = new File(lines[2]);
             System.out.println("Game path:");
             System.out.println(path.getParent());
             System.out.println();
             return path.getParent() + '\\';
-        }
-        else {
+        } else {
             return null;
         }
     }
@@ -501,7 +516,7 @@ public class SaveManipulator {
         if (selectedLocation != null) {
             currentLocation = selectedLocation;
             System.out.println("Location set to " + currentLocation);
-            if(selectedLocation == LocationList.CentralMountain || selectedLocation == LocationList.Market){
+            if (selectedLocation == LocationList.CentralMountain || selectedLocation == LocationList.Market) {
                 System.out.println("Warning! Requires outLocation and parameter to be set! Otherwise the game will crash!");
             }
             isCustomLocation = false;
@@ -590,22 +605,22 @@ public class SaveManipulator {
         System.out.println();
     }
 
-    public LocationList SetLocationFromString(String value){
+    public LocationList SetLocationFromString(String value) {
         LocationList tempLocationList = null;
-        for(LocationList temp : LocationList.values()){
-            if(value.toUpperCase().equals(temp.name)){
+        for (LocationList temp : LocationList.values()) {
+            if (value.toUpperCase().equals(temp.name)) {
                 System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
                 System.out.println();
-                    tempLocationList = temp;
-                }
+                tempLocationList = temp;
+            }
         }
         return tempLocationList;
     }
 
-    public Parameter SetParameterFromString(String value){
+    public Parameter SetParameterFromString(String value) {
         Parameter tempParameter = Parameter.Back;
-        for(Parameter temp : Parameter.values()){
-            if(value.equals(temp.name)){
+        for (Parameter temp : Parameter.values()) {
+            if (value.equals(temp.name)) {
                 System.out.printf("Extracted parameter: %s(%s)%n", temp, temp.getParameter());
                 System.out.println();
                 tempParameter = temp;
@@ -614,10 +629,10 @@ public class SaveManipulator {
         return tempParameter;
     }
 
-    public OutLocation SetOutLocationFromString(String value){
+    public OutLocation SetOutLocationFromString(String value) {
         OutLocation tempOutLocation = OutLocation.MonChien;
-        for(OutLocation temp : OutLocation.values()){
-            if(value.toUpperCase().equals(temp.getFile().toUpperCase())){
+        for (OutLocation temp : OutLocation.values()) {
+            if (value.toUpperCase().equals(temp.getFile().toUpperCase())) {
                 System.out.printf("Extracted secondary location: %s(%s)%n", temp, temp.getName());
                 System.out.println();
                 tempOutLocation = temp;
@@ -626,12 +641,11 @@ public class SaveManipulator {
         return tempOutLocation;
     }
 
-    public boolean LineSixIsNumber(String value){
-        try{
+    public boolean LineSixIsNumber(String value) {
+        try {
             Integer.parseInt(value);
             return true;
-        }
-        catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             System.out.println("Line 6 doesn't hold a value, probably holds a parameter and a secondary location");
             System.out.println();
             return false;
@@ -643,14 +657,13 @@ public class SaveManipulator {
         System.out.println("Frame set to " + frame);
         System.out.println();
     }
-    
-    public void SetHelixFloor(int floor){
-        if(floor < 1 && floor > 18) {
+
+    public void SetHelixFloor(int floor) {
+        if (floor < 1 && floor > 18) {
             System.out.println("Invalid floor for Helix-Place");
             System.out.println();
             currentHelixFloor = 0;
-        }
-        else {
+        } else {
             System.out.println("Floor for Helix-Place set to " + floor);
             System.out.println();
             currentHelixFloor = floor;
@@ -659,12 +672,13 @@ public class SaveManipulator {
     //endregion
 
     //region Seals method
-    public void SetTongNouSeal(boolean remove){
+    public void SetTongNouSeal(boolean remove) {
         sealsRemoved = remove;
         System.out.println("Seals set to " + remove);
         System.out.println();
     }
-    char GetSealValue(){
+
+    char GetSealValue() {
         return (sealsRemoved) ? '1' : ' ';
     }
     //endregion
