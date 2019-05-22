@@ -24,8 +24,10 @@ public class Controller {
     @FXML
     private ChoiceBox<String> itemBox;
 
+    //Item variables
     @FXML
     public CheckBox possesionCheckbox;
+    public int selectedItemId;
 
     @FXML
     public AnchorPane anchorPane;
@@ -59,16 +61,23 @@ public class Controller {
     }
 
     @FXML
-    public void SetCheckbox(){
+    public void SetChoiceboxItem(){
         if(SaveManipulator.instance().checkIfFileIsLoaded()){
-            //possesionCheckbox.setSelected();
+            selectedItemId = SaveManipulator.instance().getItemIdByName(itemBox.getValue());
+            possesionCheckbox.setSelected(SaveManipulator.instance().itemList[selectedItemId]);
+        }
+    }
+
+    @FXML
+    public void SetCheckboxItem(){
+        if(SaveManipulator.instance().checkIfFileIsLoaded()){
+            SaveManipulator.instance().SetItem(selectedItemId,!SaveManipulator.instance().itemList[selectedItemId]);
         }
     }
 
     @FXML
     public void SaveFile(ActionEvent event) throws IOException {
         SaveManipulator.instance().WriteFile();
-        SaveManipulator.instance().SetItem(itemBox.getValue());
     }
 
     @FXML

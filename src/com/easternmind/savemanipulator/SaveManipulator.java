@@ -24,7 +24,7 @@ public class SaveManipulator {
     //endregion
 
     //region Item variable
-    private boolean[] itemList;
+    public boolean[] itemList;
     public String[] itemNames;
     //endregion
 
@@ -253,25 +253,24 @@ public class SaveManipulator {
 
     //region Item methods
 
-    public void SetItem(int i) {
-        itemList[i] = !itemList[i];
+    public void SetItem(int i,boolean value) {
+        itemList[i] = value;
         System.out.println("Item number " + i + ":");
-        System.out.println(itemNames[i] + " possession set to " + itemList[i]);
+        System.out.println(itemNames[i] + " possession set to " + value);
         System.out.println();
     }
 
-    public void SetItem(String value) {
+    public int getItemIdByName(String value) {
         if(value != null) {
             for (int i = 0; i < itemNames.length; i++) {
                 if (value.equals(itemNames[i])) {
-                    itemList[i] = !itemList[i];
-                    System.out.println("Item number " + i + ":");
-                    System.out.println(itemNames[i] + " possession set to " + itemList[i]);
+                    System.out.println("Item id got by name: " + i);
                     System.out.println();
-                    break;
+                    return i;
                 }
             }
         }
+        return 2;
     }
 
     public void SetAllItem(boolean possession) {
