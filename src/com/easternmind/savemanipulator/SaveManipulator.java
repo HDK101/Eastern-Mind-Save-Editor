@@ -45,7 +45,7 @@ public class SaveManipulator {
 
     //region Character variables
     private int currentCharacter = 0;
-    private String[] characterNames;
+    public String[] characterNames;
 
     //endregion
 
@@ -258,19 +258,6 @@ public class SaveManipulator {
         System.out.println("Item number " + i + ":");
         System.out.println(itemNames[i] + " possession set to " + value);
         System.out.println();
-    }
-
-    public int getItemIdByName(String value) {
-        if(value != null) {
-            for (int i = 0; i < itemNames.length; i++) {
-                if (value.equals(itemNames[i])) {
-                    System.out.println("Item id got by name: " + i);
-                    System.out.println();
-                    return i;
-                }
-            }
-        }
-        return 2;
     }
 
     public void SetAllItem(boolean possession) {

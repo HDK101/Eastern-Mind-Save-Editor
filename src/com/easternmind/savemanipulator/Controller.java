@@ -22,7 +22,7 @@ public class Controller {
     private MenuItem save, saveAs, close;
 
     @FXML
-    private ChoiceBox<String> itemBox;
+    private ChoiceBox<String> itemBox,charBox;
 
     //Item variables
     @FXML
@@ -57,23 +57,50 @@ public class Controller {
             //Add Items to itemBox
             ObservableList<String> list = FXCollections.observableArrayList(SaveManipulator.instance().itemNames);
             itemBox.setItems(list);
+
+            //Add character to charBox
+            list = FXCollections.observableArrayList(SaveManipulator.instance().characterNames);
+            charBox.setItems(list);
         }
     }
 
     @FXML
     public void SetChoiceboxItem(){
         if(SaveManipulator.instance().checkIfFileIsLoaded()){
-            selectedItemId = SaveManipulator.instance().getItemIdByName(itemBox.getValue());
+            selectedItemId = itemBox.getSelectionModel().getSelectedIndex();
             possesionCheckbox.setSelected(SaveManipulator.instance().itemList[selectedItemId]);
         }
     }
-
     @FXML
     public void SetCheckboxItem(){
         if(SaveManipulator.instance().checkIfFileIsLoaded()){
             SaveManipulator.instance().SetItem(selectedItemId,!SaveManipulator.instance().itemList[selectedItemId]);
         }
     }
+
+    @FXML
+    public void SetAllItems(){
+        if (SaveManipulator.instance().checkIfFileIsLoaded()) {
+            SaveManipulator.instance().SetAllItem(true);
+            possesionCheckbox.setSelected(true);
+        }
+    }
+
+    @FXML
+    public void SetNoItems(){
+        if (SaveManipulator.instance().checkIfFileIsLoaded()) {
+            SaveManipulator.instance().SetAllItem(false);
+            possesionCheckbox.setSelected(false);
+        }
+    }
+
+    @FXML
+    public void SetChoiceboxChar() {
+        if (SaveManipulator.instance().checkIfFileIsLoaded()) {
+            SaveManipulator.instance().SetCharacter(charBox.getSelectionModel().getSelectedIndex());
+        }
+    }
+
 
     @FXML
     public void SaveFile(ActionEvent event) throws IOException {

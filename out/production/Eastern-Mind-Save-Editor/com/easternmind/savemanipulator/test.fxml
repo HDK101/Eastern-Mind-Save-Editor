@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -26,12 +27,14 @@
                 </ChoiceBox>
                         <Label alignment="CENTER" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Items:" textAlignment="CENTER" />
                 <CheckBox fx:id="possesionCheckbox" layoutX="46.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#SetCheckboxItem" text="Possession" />
-                        <Label alignment="CENTER" layoutX="271.0" layoutY="14.0" prefHeight="25.0" prefWidth="84.0" text="Character" textAlignment="CENTER" />
-                        <ChoiceBox fx:id="itemBox1" disable="false" layoutX="246.0" layoutY="47.0" onAction="#SetChoiceboxItem" opacity="1.0" prefHeight="25.0" prefWidth="134.0">
+                        <ChoiceBox fx:id="charBox" disable="false" layoutX="282.0" layoutY="47.0" onAction="#SetChoiceboxChar" opacity="1.0" prefHeight="25.0" prefWidth="62.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList" />
                            </items>
                         </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="271.0" layoutY="14.0" prefHeight="25.0" prefWidth="84.0" text="Character" textAlignment="CENTER" />
+                        <Button fx:id="allItems" layoutX="20.0" layoutY="111.0" onMouseClicked="#SetAllItems" mnemonicParsing="false" text="All Items" />
+                        <Button fx:id="noItems" layoutX="94.0" layoutY="111.0" onMouseClicked="#SetNoItems" mnemonicParsing="false" text="No Items" />
               </children>
             </AnchorPane>
           </content>
