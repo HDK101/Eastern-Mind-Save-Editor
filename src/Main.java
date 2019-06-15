@@ -19,7 +19,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("com/easternmind/savemanipulator/test.fxml"));
         primaryStage.setTitle("Eastern Mind Save Editor");
-        primaryStage.setScene(new Scene(root, 390, 265));
+        primaryStage.setScene(new Scene(root, 390, 275));
         primaryStage.setResizable(false);
         primaryStage.show();
 
