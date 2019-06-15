@@ -7,8 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    //Eastern Mind Save Editor Class
-    public static SaveManipulator easternSave;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -17,8 +15,6 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 390, 275));
         primaryStage.setResizable(false);
         primaryStage.show();
-
-        Scene scene = primaryStage.getScene();
     }
 
     public static void main(String[] args) {

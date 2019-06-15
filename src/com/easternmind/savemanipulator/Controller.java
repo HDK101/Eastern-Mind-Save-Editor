@@ -22,9 +22,8 @@ public class Controller {
     private MenuItem save, saveAs, close;
 
     @FXML
-    private ChoiceBox<String> itemBox,charBox;
+    private ChoiceBox<String> itemBox,charBox,locationBox,parameterBox,secondLocationBox;
 
-    //Item variables
     @FXML
     public CheckBox possesionCheckbox;
     public int selectedItemId;
@@ -61,6 +60,15 @@ public class Controller {
             //Add character to charBox
             list = FXCollections.observableArrayList(SaveManipulator.instance().characterNames);
             charBox.setItems(list);
+            //Set to choicebox
+            charBox.getSelectionModel().select(SaveManipulator.instance().GetCurrentCharacterId());
+            //charBox.setValue("madness");
+
+            //Add locations to locationBox
+            list = FXCollections.observableArrayList(SaveManipulator.instance().GetLocations());
+            locationBox.setItems(list);
+            //Set to choicebox
+            locationBox.getSelectionModel().select(SaveManipulator.instance().GetLocationID());
         }
     }
 
@@ -135,9 +143,4 @@ public class Controller {
         Platform.exit();
     }
 
-
-    @FXML
-    public void Shout() {
-        System.out.println("I live!");
-    }
 }

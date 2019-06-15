@@ -45,6 +45,9 @@ public class SaveManipulator {
 
     //region Character variables
     private int currentCharacter = 0;
+    public int GetCurrentCharacterId(){
+        return currentCharacter;
+    }
     public String[] characterNames;
 
     //endregion
@@ -589,6 +592,27 @@ public class SaveManipulator {
             System.out.println("Invalid location!");
         }
         System.out.println();
+    }
+
+    public int GetLocationID() {
+        int tempID = 0;
+        for (LocationList temp : LocationList.values()) {
+            if (currentLocation.name().equals(temp.name())) {
+                System.out.printf("Place ID:%d%n", tempID);
+                System.out.println();
+                break;
+            }
+            tempID++;
+        }
+        return tempID;
+    }
+
+    public String[] GetLocations(){
+        List<String> tempListLocations = new ArrayList<>();
+        for (LocationList temp : LocationList.values()) {
+            tempListLocations.add(temp.name());
+        }
+        return tempListLocations.toArray(new String[tempListLocations.size()]);
     }
 
     public LocationList SetLocationFromString(String value) {

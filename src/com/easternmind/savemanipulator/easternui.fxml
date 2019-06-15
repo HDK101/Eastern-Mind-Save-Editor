@@ -20,25 +20,51 @@
           <content>
             <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="301.0" prefWidth="600.0">
               <children>
-                <ChoiceBox fx:id="itemBox" disable="false" layoutX="21.0" layoutY="47.0" onAction="#SetChoiceboxItem" opacity="1.0" prefHeight="25.0" prefWidth="134.0">
+                <ChoiceBox fx:id="itemBox" disable="false" layoutX="21.0" layoutY="47.0" onAction="#SetChoiceboxItem" opacity="1.0" prefHeight="25.0" prefWidth="105.0">
                   <items>
                     <FXCollections fx:factory="observableArrayList" />
                   </items>
                 </ChoiceBox>
-                        <Label alignment="CENTER" layoutX="60.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Items:" textAlignment="CENTER" />
-                <CheckBox fx:id="possesionCheckbox" layoutX="46.0" layoutY="79.0" mnemonicParsing="false" onMouseClicked="#SetCheckboxItem" text="Possession" />
-                        <ChoiceBox fx:id="charBox" disable="false" layoutX="282.0" layoutY="47.0" onAction="#SetChoiceboxChar" opacity="1.0" prefHeight="25.0" prefWidth="62.0">
+                        <Label alignment="CENTER" layoutX="21.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Items:" textAlignment="CENTER" />
+                <CheckBox fx:id="possesionCheckbox" layoutX="21.0" layoutY="81.0" mnemonicParsing="false" onMouseClicked="#SetCheckboxItem" text="Possession" />
+                        <ChoiceBox fx:id="charBox" disable="false" layoutX="288.0" layoutY="47.0" onAction="#SetChoiceboxChar" opacity="1.0" prefHeight="25.0" prefWidth="90.0">
                            <items>
                               <FXCollections fx:factory="observableArrayList" />
                            </items>
                         </ChoiceBox>
-                        <Label alignment="CENTER" layoutX="271.0" layoutY="14.0" prefHeight="25.0" prefWidth="84.0" text="Character" textAlignment="CENTER" />
-                        <Button fx:id="allItems" layoutX="20.0" layoutY="111.0" onMouseClicked="#SetAllItems" mnemonicParsing="false" text="All Items" />
-                        <Button fx:id="noItems" layoutX="94.0" layoutY="111.0" onMouseClicked="#SetNoItems" mnemonicParsing="false" text="No Items" />
+                        <Label alignment="CENTER" layoutX="302.0" layoutY="14.0" prefHeight="25.0" prefWidth="84.0" text="Character" textAlignment="CENTER" />
+                        <Button fx:id="allItems" layoutX="20.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#SetAllItems" text="All Items" />
+                        <Button fx:id="noItems" layoutX="94.0" layoutY="111.0" mnemonicParsing="false" onMouseClicked="#SetNoItems" text="No Items" />
               </children>
             </AnchorPane>
           </content>
         </Tab>
+            <Tab closable="false" text="Location">
+               <content>
+                  <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="301.0" prefWidth="600.0">
+                     <children>
+                        <ChoiceBox fx:id="locationBox" disable="false" layoutX="21.0" layoutY="47.0" opacity="1.0" prefHeight="25.0" prefWidth="89.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList" />
+                           </items>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="21.0" layoutY="14.0" prefHeight="25.0" prefWidth="50.0" text="Location" textAlignment="CENTER" />
+                        <ChoiceBox fx:id="parameterBox" disable="false" layoutX="308.0" layoutY="47.0" onAction="#SetChoiceboxItem" opacity="1.0" prefHeight="25.0" prefWidth="64.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList" />
+                           </items>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="308.0" layoutY="14.0" prefHeight="25.0" prefWidth="64.0" text="Parameter" textAlignment="CENTER" />
+                        <ChoiceBox fx:id="secondLocationBox" disable="false" layoutX="288.0" layoutY="115.0" onAction="#SetChoiceboxItem" opacity="1.0" prefHeight="25.0" prefWidth="86.0">
+                           <items>
+                              <FXCollections fx:factory="observableArrayList" />
+                           </items>
+                        </ChoiceBox>
+                        <Label alignment="CENTER" layoutX="254.0" layoutY="80.0" prefHeight="25.0" prefWidth="132.0" text="Secondary Location" textAlignment="CENTER" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
       </tabs>
     </TabPane>
     <MenuBar layoutX="0.0" layoutY="0.0" prefHeight="25.0" prefWidth="400.0">
