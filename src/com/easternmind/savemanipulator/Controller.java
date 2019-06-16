@@ -5,6 +5,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.MenuItem;
@@ -23,6 +24,7 @@ public class Controller {
 
     @FXML
     private ChoiceBox<String> itemBox,charBox,locationBox,parameterBox,secondLocationBox;
+    public int selectedLocationId;
 
     @FXML
     public CheckBox possesionCheckbox;
@@ -69,9 +71,36 @@ public class Controller {
             locationBox.setItems(list);
             //Set to choicebox
             locationBox.getSelectionModel().select(SaveManipulator.instance().GetLocationID());
+
+            //Add parameters to parameterBox
+            list = FXCollections.observableArrayList(SaveManipulator.instance().GetParameters());
+            parameterBox.setItems(list);
+            //Set to choicebox
+            if(SaveManipulator.instance().currentParameter != null) {
+                parameterBox.getSelectionModel().select(SaveManipulator.instance().GetParameterID());
+            }
+
+
+
         }
     }
+    @FXML
+    public void SetChoiceboxLocation() {
+        if (SaveManipulator.instance().checkIfFileIsLoaded()) {
+              selectedLocationId = locationBox.getSelectionModel().getSelectedIndex();
+              SaveManipulator.instance().SetLocationFromID(selectedLocationId);
+              if(SaveManipulator.instance().LocationIsMarketOrMountain()) {
+                  Alert parameterAlert = new Alert(Alert.AlertType.WARNING);
+                  parameterAlert.showAndWait();
+              }
+        }
+    }
+    @FXML
+    public void SetChoiceboxParameter() {
+        if (SaveManipulator.instance().checkIfFileIsLoaded()) {
 
+        }
+    }
     @FXML
     public void SetChoiceboxItem(){
         if(SaveManipulator.instance().checkIfFileIsLoaded()){

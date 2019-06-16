@@ -188,8 +188,18 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
+    private LocationList[] locationValues;
+    public LocationList[] GetLocationValues(){
+        if(locationValues == null){
+            locationValues = LocationList.values();
+        }
+        return locationValues;
+    }
 
     private LocationList currentLocation;
+    public LocationList GetCurrentLocation(){
+        return currentLocation;
+    }
     private boolean isCustomLocation;
     private String customLocation;
 
@@ -596,7 +606,7 @@ public class SaveManipulator {
 
     public int GetLocationID() {
         int tempID = 0;
-        for (LocationList temp : LocationList.values()) {
+        for (LocationList temp : GetLocationValues()) {
             if (currentLocation.name().equals(temp.name())) {
                 System.out.printf("Place ID:%d%n", tempID);
                 System.out.println();
@@ -607,17 +617,37 @@ public class SaveManipulator {
         return tempID;
     }
 
+    public int GetParameterID(){
+        int tempID = 0;
+        for (Parameter temp : Parameter.values()) {
+            if (currentParameter.name().equals(temp.name())) {
+                System.out.printf("Parameter ID:%d%n", tempID);
+                System.out.println();
+                break;
+            }
+            tempID++;
+        }
+        return tempID;
+    }
+
     public String[] GetLocations(){
         List<String> tempListLocations = new ArrayList<>();
-        for (LocationList temp : LocationList.values()) {
+        for (LocationList temp : GetLocationValues()) {
             tempListLocations.add(temp.name());
         }
         return tempListLocations.toArray(new String[tempListLocations.size()]);
     }
 
+    public boolean LocationIsMarketOrMountain(){
+        if(GetCurrentLocation() == LocationList.CentralMountain || GetCurrentLocation() == LocationList.Market){
+            return true;
+        }
+        return false;
+    }
+
     public LocationList SetLocationFromString(String value) {
         LocationList tempLocationList = null;
-        for (LocationList temp : LocationList.values()) {
+        for (LocationList temp : GetLocationValues()) {
             if (value.toUpperCase().equals(temp.name)) {
                 System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
                 System.out.println();
@@ -625,6 +655,19 @@ public class SaveManipulator {
             }
         }
         return tempLocationList;
+    }
+
+    public void SetLocationFromID(int value) {
+        int tempID = 0;
+        for (LocationList temp : GetLocationValues()) {
+            if (value == tempID) {
+                System.out.println("Location set to " + GetLocationValues()[value]);
+                System.out.println();
+                currentLocation = GetLocationValues()[value];
+                break;
+            }
+            tempID++;
+        }
     }
 
     public Parameter SetParameterFromString(String value) {
@@ -637,6 +680,14 @@ public class SaveManipulator {
             }
         }
         return tempParameter;
+    }
+
+    public String[] GetParameters(){
+        List<String> parametersList = new ArrayList<>();
+        for(Parameter temp : Parameter.values()){
+            parametersList.add(temp.name());
+        }
+        return parametersList.toArray(new String[parametersList.size()]);
     }
 
     public OutLocation SetOutLocationFromString(String value) {
