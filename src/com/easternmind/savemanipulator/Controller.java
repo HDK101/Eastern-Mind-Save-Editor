@@ -35,8 +35,17 @@ public class Controller {
 
     @FXML
     public void LoadDialog(ActionEvent event) throws IOException, InvalidEasternMindFileException {
+
+        //Resetting SaveManipulator variables and FXML Variables
         SaveManipulator.instance().Reset();
 
+        itemBox.getSelectionModel().clearSelection();
+        charBox.getSelectionModel().clearSelection();
+        locationBox.getSelectionModel().clearSelection();
+        parameterBox.getSelectionModel().clearSelection();
+        secondLocationBox.getSelectionModel().clearSelection();
+
+        //Load Dialog
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT Files","*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
