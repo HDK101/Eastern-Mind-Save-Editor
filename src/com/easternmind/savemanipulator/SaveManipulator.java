@@ -45,9 +45,11 @@ public class SaveManipulator {
 
     //region Character variables
     private int currentCharacter = 0;
-    public int GetCurrentCharacterId(){
+
+    public int GetCurrentCharacterId() {
         return currentCharacter;
     }
+
     public String[] characterNames;
 
     //endregion
@@ -188,41 +190,53 @@ public class SaveManipulator {
             return name + ".dxr";
         }
     }
+
     private LocationList[] locationValues;
-    public LocationList[] GetLocationValues(){
-        if(locationValues == null){
+
+    public LocationList[] GetLocationValues() {
+        if (locationValues == null) {
             locationValues = LocationList.values();
         }
         return locationValues;
     }
 
     private LocationList currentLocation;
-    public LocationList GetCurrentLocation(){
+
+    public LocationList GetCurrentLocation() {
         return currentLocation;
     }
+
     private boolean isCustomLocation;
     private String customLocation;
 
     public enum OutLocation {
-        GreenFace("d_face"),
+        GreenFace("d_face", 0),
 
-        MingKen("l_field"),
+        MingKen("l_field", 1),
 
-        YuiWang("g_Palace"),
+        YuiWang("g_Palace", 2),
 
-        MonChien("w_Lake1"),
+        MonChien("w_Lake1", 3),
 
-        RockRoom("W_RMEYE"),
+        RockRoom("W_RMEYE", 4),
 
-        MokuGyouTree("l_Wood"),
+        MokuGyouTree("l_Wood", 5),
 
-        ShiChieng("f_field");
+        ShiChieng("f_field", 6);
 
 
         private String name;
 
-        OutLocation(String name) {
+        private int index;
+
+        OutLocation(String name, int index) {
             this.name = name;
+            this.index = index;
+
+        }
+
+        public int getIndex() {
+            return index;
         }
 
         public String getFile() {
@@ -233,6 +247,15 @@ public class SaveManipulator {
             return name;
         }
 
+    }
+
+    public OutLocation[] outLocationValues;
+
+    public OutLocation[] GetOutLocationValues() {
+        if (outLocationValues == null) {
+            outLocationValues = OutLocation.values();
+        }
+        return outLocationValues;
     }
 
     //Location for parameter in line 7.
@@ -266,7 +289,7 @@ public class SaveManipulator {
 
     //region Item methods
 
-    public void SetItem(int i,boolean value) {
+    public void SetItem(int i, boolean value) {
         itemList[i] = value;
         System.out.println("Item number " + i + ":");
         System.out.println(itemNames[i] + " possession set to " + value);
@@ -511,6 +534,7 @@ public class SaveManipulator {
 
     //region Location methods
 
+    //region Unused
     public void SetLocation(LocationList selectedLocation) {
         if (selectedLocation != null) {
             currentLocation = selectedLocation;
@@ -531,7 +555,6 @@ public class SaveManipulator {
             //Special case for Shi Chieng.
             if (currentLocation == LocationList.CentralMountain) {
                 if (selectedOutLocation == OutLocation.MingKen) {
-                    System.out.println("Special case, Setting to MokuGyouTree and parameter to 016'");
                     currentParameter = Parameter.Sixteen;
                     outLocation = OutLocation.MokuGyouTree;
 
@@ -554,27 +577,6 @@ public class SaveManipulator {
                 } else {
                     System.out.println("Illegal location for Central Mountain: " + selectedOutLocation);
                 }
-                /*
-
-                OLD CODE
-
-                else if(selectedOutLocation != OutLocation.ShiChiengField && selectedParameter == Parameter.Mount){
-                    System.out.println("Illegal parameter for Central Mountain! Mount parameter is exclusive for Shi Chieng");
-                    currentParameter = Parameter.Back;
-                    outLocation = selectedOutLocation;
-
-                }
-                else if(selectedOutLocation != OutLocation.MingKenField && selectedParameter == Parameter.Sixteen){
-                    System.out.println("Illegal parameter for Central Mountain! 016' parameter is exclusive for MingKenField(MokuGyouTree)!");
-                    currentParameter = Parameter.Back;
-                    outLocation = selectedOutLocation;
-
-                }
-                else{
-                    currentParameter = selectedParameter;
-                    outLocation = selectedOutLocation;
-                }
-                */
             }
             if (currentLocation == LocationList.Market) {
                 if (selectedOutLocation == OutLocation.RockRoom) {
@@ -604,20 +606,92 @@ public class SaveManipulator {
         System.out.println();
     }
 
-    public int GetLocationID() {
-        int tempID = 0;
-        for (LocationList temp : GetLocationValues()) {
-            if (currentLocation.name().equals(temp.name())) {
-                System.out.printf("Place ID:%d%n", tempID);
-                System.out.println();
-                break;
-            }
-            tempID++;
-        }
-        return tempID;
+    //endregion
+
+    //region OutLocation
+    public int GetOutLocationID() {
+        System.out.printf("Out Place ID:%d%n", outLocation.getIndex());
+
+        return outLocation.getIndex();
     }
 
-    public int GetParameterID(){
+    public OutLocation GetOutLocationFromName(String name) {
+        for (OutLocation temp : GetOutLocationValues()) {
+            if (name.equals(temp.name())) {
+                System.out.println("Secondary Location: " + name);
+                System.out.println();
+                return temp;
+            }
+        }
+
+        return null;
+    }
+
+    public void SetOutLocationFromID(int value) {
+        System.out.println("Secondary Location set to " + GetOutLocationValues()[value]);
+        outLocation = GetOutLocationValues()[value];
+    }
+
+    public String[] GetOutLocationValuesForCentralMountain() {
+        List<String> tempListLocations = new ArrayList<>();
+        for (OutLocation temp : GetOutLocationValues()) {
+            switch (temp) {
+                case ShiChieng:
+                case YuiWang:
+                case MonChien:
+                case GreenFace:
+                    tempListLocations.add(temp.name());
+                    break;
+            }
+        }
+        return tempListLocations.toArray(new String[tempListLocations.size()]);
+    }
+
+    public String[] GetOutLocationValuesForMarket() {
+        List<String> tempListLocations = new ArrayList<>();
+        for (OutLocation temp : GetOutLocationValues()) {
+            switch (temp) {
+                case RockRoom:
+                case MingKen:
+                case YuiWang:
+                case MonChien:
+                    tempListLocations.add(temp.name());
+                    break;
+            }
+        }
+        return tempListLocations.toArray(new String[tempListLocations.size()]);
+    }
+
+    public boolean LocationIsMarket() {
+        if (GetCurrentLocation() == LocationList.Market) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean LocationIsCentralMountain() {
+        if (GetCurrentLocation() == LocationList.CentralMountain) {
+            return true;
+        }
+        return false;
+    }
+
+    public OutLocation SetOutLocationFromString(String value) {
+        OutLocation tempOutLocation = OutLocation.MonChien;
+        for (OutLocation temp : OutLocation.values()) {
+            if (value.toUpperCase().equals(temp.getFile().toUpperCase())) {
+                System.out.printf("Extracted secondary location: %s(%s)%n", temp, temp.getName());
+                System.out.println();
+                tempOutLocation = temp;
+            }
+        }
+        return tempOutLocation;
+    }
+
+    //endregion
+
+    //region Parameter
+    public int GetParameterID() {
         int tempID = 0;
         for (Parameter temp : Parameter.values()) {
             if (currentParameter.name().equals(temp.name())) {
@@ -630,31 +704,50 @@ public class SaveManipulator {
         return tempID;
     }
 
-    public String[] GetLocations(){
-        List<String> tempListLocations = new ArrayList<>();
-        for (LocationList temp : GetLocationValues()) {
-            tempListLocations.add(temp.name());
-        }
-        return tempListLocations.toArray(new String[tempListLocations.size()]);
-    }
-
-    public boolean LocationIsMarketOrMountain(){
-        if(GetCurrentLocation() == LocationList.CentralMountain || GetCurrentLocation() == LocationList.Market){
-            return true;
-        }
-        return false;
-    }
-
-    public LocationList SetLocationFromString(String value) {
-        LocationList tempLocationList = null;
-        for (LocationList temp : GetLocationValues()) {
-            if (value.toUpperCase().equals(temp.name)) {
-                System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
+    public Parameter SetParameterFromString(String value) {
+        Parameter tempParameter = Parameter.Back;
+        for (Parameter temp : Parameter.values()) {
+            if (value.equals(temp.name)) {
+                System.out.printf("Extracted parameter: %s(%s)%n", temp, temp.getParameter());
                 System.out.println();
-                tempLocationList = temp;
+                tempParameter = temp;
             }
         }
-        return tempLocationList;
+        return tempParameter;
+    }
+
+    public String[] GetParameters() {
+        List<String> parametersList = new ArrayList<>();
+        for (Parameter temp : Parameter.values()) {
+            parametersList.add(temp.name());
+        }
+        return parametersList.toArray(new String[parametersList.size()]);
+    }
+
+    public boolean LineSixIsNumber(String value) {
+        try {
+            Integer.parseInt(value);
+            return true;
+        } catch (NumberFormatException ex) {
+            System.out.println("Line 6 doesn't hold a value, probably holds a parameter and a secondary location");
+            System.out.println();
+            return false;
+        }
+    }
+    //endregion
+
+    //region Location
+    public int GetLocationID() {
+        int tempID = 0;
+        for (LocationList temp : GetLocationValues()) {
+            if (currentLocation.name().equals(temp.name())) {
+                System.out.printf("Place ID:%d%n", tempID);
+                System.out.println();
+                break;
+            }
+            tempID++;
+        }
+        return tempID;
     }
 
     public void SetLocationFromID(int value) {
@@ -670,48 +763,26 @@ public class SaveManipulator {
         }
     }
 
-    public Parameter SetParameterFromString(String value) {
-        Parameter tempParameter = Parameter.Back;
-        for (Parameter temp : Parameter.values()) {
-            if (value.equals(temp.name)) {
-                System.out.printf("Extracted parameter: %s(%s)%n", temp, temp.getParameter());
+    public String[] GetLocations() {
+        List<String> tempListLocations = new ArrayList<>();
+        for (LocationList temp : GetLocationValues()) {
+            tempListLocations.add(temp.name());
+        }
+        return tempListLocations.toArray(new String[tempListLocations.size()]);
+    }
+
+    public LocationList SetLocationFromString(String value) {
+        LocationList tempLocationList = null;
+        for (LocationList temp : GetLocationValues()) {
+            if (value.toUpperCase().equals(temp.name)) {
+                System.out.printf("Extracted place: %s(%s)%n", temp, temp.getFile());
                 System.out.println();
-                tempParameter = temp;
+                tempLocationList = temp;
             }
         }
-        return tempParameter;
+        return tempLocationList;
     }
-
-    public String[] GetParameters(){
-        List<String> parametersList = new ArrayList<>();
-        for(Parameter temp : Parameter.values()){
-            parametersList.add(temp.name());
-        }
-        return parametersList.toArray(new String[parametersList.size()]);
-    }
-
-    public OutLocation SetOutLocationFromString(String value) {
-        OutLocation tempOutLocation = OutLocation.MonChien;
-        for (OutLocation temp : OutLocation.values()) {
-            if (value.toUpperCase().equals(temp.getFile().toUpperCase())) {
-                System.out.printf("Extracted secondary location: %s(%s)%n", temp, temp.getName());
-                System.out.println();
-                tempOutLocation = temp;
-            }
-        }
-        return tempOutLocation;
-    }
-
-    public boolean LineSixIsNumber(String value) {
-        try {
-            Integer.parseInt(value);
-            return true;
-        } catch (NumberFormatException ex) {
-            System.out.println("Line 6 doesn't hold a value, probably holds a parameter and a secondary location");
-            System.out.println();
-            return false;
-        }
-    }
+    //endregion
 
     public void SetFrame(int frame) {
         currentFrame = frame;

@@ -25,6 +25,7 @@ public class Controller {
     @FXML
     private ChoiceBox<String> itemBox,charBox,locationBox,parameterBox,secondLocationBox;
     public int selectedLocationId;
+    public int selectedOutLocationId;
 
     @FXML
     public CheckBox possesionCheckbox;
@@ -84,6 +85,7 @@ public class Controller {
             //Add parameters to parameterBox
             list = FXCollections.observableArrayList(SaveManipulator.instance().GetParameters());
             parameterBox.setItems(list);
+
             //Set to choicebox
             if(SaveManipulator.instance().currentParameter != null) {
                 parameterBox.getSelectionModel().select(SaveManipulator.instance().GetParameterID());
@@ -98,17 +100,32 @@ public class Controller {
         if (SaveManipulator.instance().checkIfFileIsLoaded()) {
               selectedLocationId = locationBox.getSelectionModel().getSelectedIndex();
               SaveManipulator.instance().SetLocationFromID(selectedLocationId);
-              if(SaveManipulator.instance().LocationIsMarketOrMountain()) {
-                  Alert parameterAlert = new Alert(Alert.AlertType.WARNING);
-                  parameterAlert.showAndWait();
+              if(SaveManipulator.instance().LocationIsCentralMountain()) {
+                  //Add second locations to secondLocationBox
+                  secondLocationBox.getSelectionModel().clearSelection();
+
+                  ObservableList<String> list;
+                  list = FXCollections.observableArrayList(SaveManipulator.instance().GetOutLocationValuesForCentralMountain());
+                  secondLocationBox.setItems(list);
+              }
+              else if(SaveManipulator.instance().LocationIsMarket()) {
+                  //Add second locations to secondLocationBox
+                  secondLocationBox.getSelectionModel().clearSelection();
+
+                  ObservableList<String> list;
+                  list = FXCollections.observableArrayList(SaveManipulator.instance().GetOutLocationValuesForMarket());
+                  secondLocationBox.setItems(list);
               }
         }
     }
     @FXML
-    public void SetChoiceboxParameter() {
+    public void SetChoiceboxOutLocation()
+    {
         if (SaveManipulator.instance().checkIfFileIsLoaded()) {
-
+            selectedOutLocationId = SaveManipulator.instance().GetOutLocationFromName(secondLocationBox.getValue()).getIndex();
+            SaveManipulator.instance().SetOutLocationFromID(selectedOutLocationId);
         }
+
     }
     @FXML
     public void SetChoiceboxItem(){
